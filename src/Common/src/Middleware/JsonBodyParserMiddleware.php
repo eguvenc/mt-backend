@@ -10,14 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
 
 class JsonBodyParserMiddleware implements MiddlewareInterface
 {
-    public function __construct(private TranslatorInterface $translator)
-    {
-    }
-
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $headers = $request->getHeaders();
@@ -41,7 +36,7 @@ class JsonBodyParserMiddleware implements MiddlewareInterface
             $parsedBody = json_decode($contentBody, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new BodyDecodeException($this->translator->translate(json_last_error_msg()));
+                throw new BodyDecodeException(json_last_error_msg());
             }
         } else {
             $parsedBody = $request->getParsedBody();

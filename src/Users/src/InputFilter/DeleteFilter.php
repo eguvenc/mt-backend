@@ -26,7 +26,7 @@ class DeleteFilter extends InputFilter
                     'name' => RecordExists::class,
                     'options' => [
                         'table'   => 'users',
-                        'field'   => 'userId',
+                        'field'   => 'id',
                         'adapter' => $this->adapter,
                     ]
                 ]

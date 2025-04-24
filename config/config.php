@@ -13,18 +13,10 @@ $cacheConfig = [
 
 // Let's merge the configuration with ConfigAggregator
 $aggregator = new ConfigAggregator([
-  \Laminas\Mvc\I18n\ConfigProvider::class,
-  \Laminas\I18n\ConfigProvider::class,
-  \i18n\ConfigProvider::class,
+  \Common\ConfigProvider::class,
   \Olobase\Mezzio\ConfigProvider::class,
-  \Mezzio\Authentication\LaminasAuthentication\ConfigProvider::class,
-  \Mezzio\Authorization\ConfigProvider::class,
-  \Mezzio\Authentication\ConfigProvider::class,
   \Laminas\Db\ConfigProvider::class,
   \Laminas\Paginator\ConfigProvider::class,
-  \Modules\ConfigProvider::class,
-  \Categories\ConfigProvider::class,
-  \Users\ConfigProvider::class,
   \Laminas\Serializer\ConfigProvider::class,
   \Laminas\Cache\ConfigProvider::class,
   \Laminas\Cache\Storage\Adapter\Redis\ConfigProvider::class,
@@ -50,8 +42,6 @@ $aggregator = new ConfigAggregator([
       : function (): array {
           return [];
       },
-  // Common config provider
-  Common\ConfigProvider::class,
   // Load application configurations in a specific order
   new PhpFileProvider(realpath(__DIR__) . sprintf('/autoload/{,*.}{global,%s}.php', getenv('APP_ENV') ?: 'local')),
   // If there is a development configuration, install it

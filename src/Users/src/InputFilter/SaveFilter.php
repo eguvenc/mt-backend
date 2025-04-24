@@ -46,7 +46,7 @@ class SaveFilter extends InputFilter
                     'name' => $method == 'POST' ? NoRecordExists::class : RecordExists::class,
                     'options' => [
                         'table'   => 'users',
-                        'field'   => 'userId',
+                        'field'   => 'id',
                         'adapter' => $this->adapter,
                     ]
                 ]

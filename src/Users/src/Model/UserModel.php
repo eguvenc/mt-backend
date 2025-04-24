@@ -42,11 +42,11 @@ class UserModel implements UserModelInterface
         $platform = $this->adapter->getPlatform();
         $roles = "JSON_ARRAYAGG(";
         $roles.= "JSON_OBJECT(";
-        $roles.= "'id' , r.roleId , ";
-        $roles.= "'name' , r.roleName ";
+        $roles.= "'id' , r.id , ";
+        $roles.= "'name' , r.name ";
         $roles.= "))";
         $this->rolesFunction = $platform->quoteIdentifierInFragment(
-            "(SELECT $roles FROM userRoles ur LEFT JOIN roles r ON r.roleId = ur.roleId WHERE ur.userId = u.userId)",
+            "(SELECT $roles FROM userRoles ur LEFT JOIN roles r ON r.id = ur.roleId WHERE ur.userId = u.id)",
             [
                 '(',
                 ')',
@@ -79,7 +79,7 @@ class UserModel implements UserModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'id' => 'userId',
+            'id',
             'firstname',
             'lastname',
             'email',
@@ -183,16 +183,13 @@ class UserModel implements UserModelInterface
         $select = $sql->select();
         $select->columns(
             [
-                'id' => 'userId',
-                'userId',
+                'id',            
                 'firstname',
                 'lastname',
                 'email',
-                'locale' => new Expression("JSON_OBJECT('id', l.langId, 'name', l.langName)"),
                 'emailActivation',
                 'active',
                 'themeColor',
-                'lastLogin',
                 'createdAt',
             ]
         );
@@ -220,8 +217,7 @@ class UserModel implements UserModelInterface
         $select = $sql->select();
         $select->columns(
             [
-                'id' => 'userId',
-                'userId',
+                'id',
                 'firstname',
                 'lastname',
                 'email',
@@ -241,7 +237,6 @@ class UserModel implements UserModelInterface
     public function create(array $data) : void
     {
         $userId = $data['id'];
-        $data['users']['userId'] = $userId;
         try {
             $this->conn->beginTransaction();
             if (! empty($data['users']['password'])) {
@@ -270,7 +265,7 @@ class UserModel implements UserModelInterface
                 unset($data['users']['password']);
             }
             $data['users']['updatedAt'] = date('Y-m-d H:i:s');
-            $this->users->update($data['users'], ['userId' => $userId]);
+            $this->users->update($data['users'], ['id' => $userId]);
             $this->userAvatars->delete(['userId' => $userId]);
             if (! empty($data['avatar']['image'])) { // let's read mime type safely
                 $mimeType = finfo_buffer(
@@ -297,7 +292,7 @@ class UserModel implements UserModelInterface
     {
         try {
             $this->conn->beginTransaction();
-            $this->users->delete(['userId' => $userId]);        
+            $this->users->delete(['id' => $userId]);        
             $this->userAvatars->delete(['userId' => $userId]);
             $this->conn->commit();
         } catch (Exception $e) {
@@ -311,7 +306,7 @@ class UserModel implements UserModelInterface
         $password = password_hash($newPassword, PASSWORD_DEFAULT, ['cost' => 10]);
         try {
             $this->conn->beginTransaction();
-            $this->users->update(['password' => $password], ['userId' => $userId]);
+            $this->users->update(['password' => $password], ['id' => $userId]);
             $this->conn->commit();
         } catch (Exception $e) {
             $this->conn->rollback();

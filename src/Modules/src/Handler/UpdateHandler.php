@@ -13,7 +13,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
 
 class UpdateHandler implements RequestHandlerInterface
 {
@@ -21,7 +20,6 @@ class UpdateHandler implements RequestHandlerInterface
         private ModuleModelInterface $moduleModel,
         private DataManagerInterface $dataManager,
         private SaveFilter $filter,
-        private TranslatorInterface $translator,
         private Error $error,
     ) 
     {
@@ -71,7 +69,7 @@ class UpdateHandler implements RequestHandlerInterface
                 return new JsonResponse(
                     [
                         'data' => [
-                            'info' => $this->translator->translate('The core module `Modules` cannot be modified'),
+                            'info' => 'The core module `Modules` cannot be modified',
                         ]
                     ],
                     400

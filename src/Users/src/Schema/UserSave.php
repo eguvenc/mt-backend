@@ -13,7 +13,7 @@ class UserSave
      *     format="uuid"
      * )
      */
-    public $userId;
+    public $id;
     /**
      * @var string
      * @OA\Property()

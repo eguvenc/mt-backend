@@ -54,7 +54,7 @@ class SaveFilter extends InputFilter
                         'table'   => 'users',
                         'field'   => 'email',
                         'exclude' => [
-                            'field' => 'userId',
+                            'field' => 'id',
                             'value' => $data['userId'],
                         ],
                         'adapter' => $this->adapter,

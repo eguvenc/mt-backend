@@ -10,9 +10,6 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Cache\Storage\StorageInterface;
 use Predis\ClientInterface as PredisInterface;
 use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
-use Laminas\EventManager\EventManagerInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
-// use Laminas\ServiceManager\Factory\InvokableFactory;
 
 /**
  * The configuration provider for the Authorization module
@@ -44,47 +41,19 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                
-            ],
-            'delegators' => [
-                TranslatorInterface::class => [
-                    'Common\Factory\TranslatorDelegatorFactory',
-                ],
+
             ],
             'factories'  => [
                 // classes
                 StorageInterface::class => Factory\CacheFactory::class,
                 SimpleCacheInterface::class => Factory\SimpleCacheFactory::class,   
                 PredisInterface::class => Factory\PredisFactory::class,
-                EventManagerInterface::class => Factory\EventManagerFactory::class,
 
                 // middlewares
                 Middleware\SetLocaleMiddleware::class => Middleware\SetLocaleMiddlewareFactory::class,
                 Middleware\JsonBodyParserMiddleware::class => Middleware\JsonBodyParserMiddlewareFactory::class,
-
-                // handlers
-                Handler\Locales\FindAllHandler::class => Handler\Locales\FindAllHandlerFactory::class,
-                Handler\Files\FindOneByIdHandler::class => Handler\Files\FindOneByIdHandlerFactory::class,
-                Handler\Files\ReadOneByIdHandler::class => Handler\Files\ReadOneByIdHandlerFactory::class,
-
-                // models
-                Model\CommonModelInterface::class => function ($container) {
-                    $config = $container->get('config');
-                    $dbAdapter = $container->get(AdapterInterface::class);
-                    $cacheStorage = $container->get(StorageInterface::class);
-                    return new Model\CommonModel($dbAdapter, $cacheStorage, $config);
-                }
-
             ],
         ];
-    }
-
-    /**
-     * Registers routes for the module
-     */
-    public static function registerRoutes(Application $app, ContainerInterface $container): void
-    {
-        (require __DIR__ . '/../config/routes.php')($app, $container);
     }
     
 }

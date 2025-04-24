@@ -13,7 +13,7 @@ class ModuleSave
      *     format="uuid"
      * )
      */
-    public $moduleId;
+    public $id;
     /**
      * @var string
      * @OA\Property()

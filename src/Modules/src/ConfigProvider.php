@@ -30,7 +30,6 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'input_filters' => $this->getInputFilters(),
-            'translator' => $this->getTranslations(),
         ];
     }
 
@@ -68,19 +67,6 @@ class ConfigProvider
         ];
     }
 
-    public function getTranslations() : array
-    {
-        return [
-            'translation_file_patterns' => [
-                [
-                    'type' => 'PhpArray',
-                    'base_dir' => __DIR__ . '/i18n',
-                    'pattern' => '%s/messages.php',
-                ]
-            ],
-        ];
-    }
-    
     public static function registerRoutes(Application $app, ContainerInterface $container): void
     {
         (require __DIR__ . '/../config/routes.php')($app, $container);

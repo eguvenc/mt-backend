@@ -7,7 +7,6 @@ namespace Common\Factory;
 use Predis\Client as PredisClient;
 use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
 
 class PredisFactory implements FactoryInterface
 {

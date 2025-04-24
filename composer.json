@@ -45,9 +45,6 @@
         "mezzio/mezzio": "^3.7",
         "mezzio/mezzio-helpers": "^5.7",
         "mezzio/mezzio-laminasrouter": "^3.9.0",
-        "olobase/authentication": "dev-main",
-        "olobase/authorization": "dev-main",
-        "olobase/i18n": "dev-main",
         "olobase/mezzio": "^2.0",
         "predis/predis": "^2.3",
         "ramsey/uuid": "^4.7",
@@ -80,7 +77,7 @@
         },
         {
             "type": "path",
-            "url": "./src/i18n",
+            "url": "./src/Common",
             "options": {
                 "symlink": true
             }
@@ -88,13 +85,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Common\\": "src/Common/src",
             "Authentication\\": "src/Authentication/src/",
             "Authorization\\": "src/Authorization/src/",
-            "Users\\": "src/Users/src/",
-            "Categories\\": "src/Categories/src/",
-            "Modules\\": "src/Modules/src/",
-            "i18n\\": "src/i18n/src/"
+            "Common\\": "src/Common/src/"
         }
     },
     "autoload-dev": {

@@ -35,13 +35,6 @@ class UsersFindAllByPagingObject
      */
     public $themeColor;
     /**
-     * @var string
-     * @OA\Property(
-     *     format="date-time",
-     * )
-     */
-    public $lastLogin;
-    /**
      * @var integer
      * @OA\Property()
      */
