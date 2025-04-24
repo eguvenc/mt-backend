@@ -55,7 +55,6 @@ class JwtAuthentication implements AuthenticationInterface
     protected $encoder;
     protected $tokenModel;
     protected $roleModel;
-    protected $events;
     protected $userFactory;
     protected $payload = array();
     protected $ipAddress;
@@ -69,7 +68,6 @@ class JwtAuthentication implements AuthenticationInterface
         JwtEncoderInterface $encoder,
         TokenModelInterface $tokenModel,
         RoleModelInterface $roleModel,
-        EventManagerInterface $events,
         callable $userFactory
     ) {
         $this->config = $config;
@@ -78,7 +76,6 @@ class JwtAuthentication implements AuthenticationInterface
         $this->encoder = $encoder;
         $this->tokenModel = $tokenModel;
         $this->roleModel = $roleModel;
-        $this->events = $events;
         $this->userFactory = $userFactory;
         $this->ipAddress = RequestHelper::getRealUserIp();
     }
@@ -110,17 +107,12 @@ class JwtAuthentication implements AuthenticationInterface
         } 
         $this->authAdapter->setIdentity($post[$usernameField]);
         $this->authAdapter->setCredential($post[$passwordField]);
-        
-        $usernameValue = $post[$usernameField];
-        if ($this->checkUserBanned($usernameValue)) {
-            return null;
-        }
+
         $result = $this->checkAuthentication($usernameValue);
         if (!$result) {
             return null;
         }
         $this->rowObject = $this->authAdapter->getResultRowObject(); // create authenticated user object
-        $this->createSuccesfullLoginEvent($usernameValue);
 
         if ($this->checkUserInactive()) {
             return null;
@@ -141,34 +133,14 @@ class JwtAuthentication implements AuthenticationInterface
         return false;
     }
 
-    private function createSuccesfullLoginEvent($usernameValue)
-    {
-        $eventParams = $this->getEventParams($usernameValue);
-        $this->events->trigger(LoginListener::onSuccessfullLogin, null, $eventParams);
-    }
-
     private function checkAuthentication($usernameValue)
     {
         $result = $this->authAdapter->authenticate();
         if (! $result->isValid()) {
-            $eventParams = $this->getEventParams($usernameValue);
-            $this->events->trigger(LoginListener::onFailedLogin, null, $eventParams); // failed attempts event
             $this->error(Self::USERNAME_OR_PASSWORD_INCORRECT);
             return false;
         }
         return $result;
-    }
-
-    private function checkUserBanned($usernameValue) : bool
-    {
-        $eventParams = $this->getEventParams($usernameValue);
-        $results = $this->events->trigger(LoginListener::onBeforeLogin, null, $eventParams);
-        $loginResponse = $results->last();
-        if ($loginResponse['banned']) {
-            $this->error($loginResponse['message']);
-            return true;
-        }
-        return false;
     }
 
     private function checkUserHasRole() : array|bool
@@ -179,17 +151,6 @@ class JwtAuthentication implements AuthenticationInterface
             return false;
         }
         return $roles;
-    }
-
-    private function getEventParams($usernameValue) : array
-    {
-        return [
-            'request' => $this->request,
-            'translator' => $this->translator,
-            'username' => $usernameValue,
-            'ip' => $this->getIpAddress(),
-            'rowObject' => $this->rowObject,
-        ];
     }
 
     private function getUserDetails() : array

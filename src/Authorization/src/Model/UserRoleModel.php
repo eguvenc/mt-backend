@@ -55,7 +55,7 @@ class UserRoleModel implements UserRoleModelInterface
         $select = $sql->select();
         $select->columns(
             [
-                'id' => 'userId',
+                'id',
                 'firstname',
                 'lastname',
                 'email'

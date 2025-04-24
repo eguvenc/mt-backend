@@ -45,24 +45,24 @@ class PermissionModel implements PermissionModelInterface
         $adapter = $this->permissions->getAdapter();
         $select  = $this->permissions->getSql()->select();
         $select->columns([
-            'permId',
+            'id',
             'route',
             'method',
             'action',
         ]);
         $select->join(
             ['rp' => 'rolePermissions'],
-            'permissions.permId = rp.permId', [], $select::JOIN_INNER);
+            'permissions.id = rp.permId', [], $select::JOIN_INNER);
         $select->join(
             ['r' => 'roles'],
-            'r.roleId = rp.roleId', ['roleKey','roleLevel'], $select::JOIN_LEFT);
+            'r.id = rp.roleId', ['key','level'], $select::JOIN_LEFT);
         
         // echo $select->getSqlString($adapter->getPlatform());
         // die;
         $resultSet = $this->permissions->selectWith($select);
         $results = array();
         foreach ($resultSet as $row) {
-            $results[$row['roleKey']][] = $row['route'].'^'.$row['method'];
+            $results[$row['key']][] = $row['route'].'^'.$row['method'];
         }
         if (! empty($results)) {
             $this->cache->setItem($key, $results);
@@ -75,7 +75,7 @@ class PermissionModel implements PermissionModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'permId',
+            'id',
             'module',
             'name',
             'action',
@@ -97,7 +97,7 @@ class PermissionModel implements PermissionModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'id' => 'permId',
+            'id',
             // 'groupName' => 'moduleName',
             'action' => new Expression("JSON_OBJECT('id', p.action, 'name', CONCAT(UPPER(SUBSTRING(p.action, 1, 1)), LOWER(SUBSTRING(p.action, 2))))"),
             'method' => new Expression("JSON_OBJECT('id', p.method, 'name', p.method)"),
@@ -157,11 +157,11 @@ class PermissionModel implements PermissionModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'id' => 'roleId',
-            'roleName',
+            'id',
+            'name',
         ]);
         $select->from(['r' => 'roles']);
-        $select->where(['r.roleId' => $roleId]);
+        $select->where(['r.id' => $roleId]);
 
         // echo $select->getSqlString($this->adapter->getPlatform());
         // die;
@@ -175,7 +175,7 @@ class PermissionModel implements PermissionModelInterface
         $sql    = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns(
-            'permId',
+            'id',
             'module',
             'name',
             'action',
@@ -183,7 +183,7 @@ class PermissionModel implements PermissionModelInterface
             'method',
         );
         $select->from(['p' => 'permissions']);
-        $select->join(['rp' => 'rolePermissions'], 'p.permId = rp.permId',
+        $select->join(['rp' => 'rolePermissions'], 'p.id = rp.permId',
             [],
         $select::JOIN_LEFT);
         $select->where(['rp.roleId' => $roleId]);
@@ -203,7 +203,6 @@ class PermissionModel implements PermissionModelInterface
     {
         try {
             $this->conn->beginTransaction();
-            $data['permissions']['permId'] = $data['id'];
             $this->permissions->insert($data['permissions']);
             $this->deleteCache();
             $this->conn->commit();
@@ -217,7 +216,7 @@ class PermissionModel implements PermissionModelInterface
     {
         try {
             $this->conn->beginTransaction();
-            $this->permissions->update($data['permissions'], ['permId' => $data['id']]);
+            $this->permissions->update($data['permissions'], ['id' => $data['id']]);
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
@@ -231,7 +230,7 @@ class PermissionModel implements PermissionModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->from(['r' => 'permissions']);
-        $select->where(['permId' => $permId]);
+        $select->where(['id' => $permId]);
 
         $statement = $sql->prepareStatementForSqlObject($select);
         $resultSet = $statement->execute();
@@ -257,7 +256,7 @@ class PermissionModel implements PermissionModelInterface
     {
         try {
             $this->conn->beginTransaction();
-            $this->permissions->delete(['permId' => $permId]);
+            $this->permissions->delete(['id' => $permId]);
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {

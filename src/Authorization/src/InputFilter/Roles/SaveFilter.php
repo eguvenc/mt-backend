@@ -38,14 +38,14 @@ class SaveFilter extends InputFilter
                     'name' => $method == 'POST' ? NoRecordExists::class : RecordExists::class,
                     'options' => [
                         'table'   => 'roles',
-                        'field'   => 'roleId',
+                        'field'   => 'id',
                         'adapter' => $this->adapter,
                     ]
                 ]
             ],
         ]);
         $this->add([
-            'name' => 'roleKey',
+            'name' => 'key',
             'required' => true,
             'validators' => [
                 [
@@ -59,7 +59,7 @@ class SaveFilter extends InputFilter
             ],
         ]);
         $this->add([
-            'name' => 'roleName',
+            'name' => 'name',
             'required' => true,
             'validators' => [
                 [
@@ -73,7 +73,7 @@ class SaveFilter extends InputFilter
             ],
         ]);
         $this->add([
-            'name' => 'roleLevel',
+            'name' => 'level',
             'required' => true,
             'filters' => [
                 ['name' => ToInt::class],

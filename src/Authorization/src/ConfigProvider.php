@@ -127,7 +127,7 @@ class ConfigProvider
             'translation_file_patterns' => [
                 [
                     'type' => 'PhpArray',
-                    'base_dir' => __DIR__ . '/../i18n',
+                    'base_dir' => __DIR__ . '/i18n',
                     'pattern' => '%s/messages.php',
                 ]
             ],

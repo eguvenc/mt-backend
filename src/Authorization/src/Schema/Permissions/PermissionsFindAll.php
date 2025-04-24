@@ -13,7 +13,7 @@ class PermissionsFindAll
     *      type="array",
     *      @OA\Items(
     *           @OA\Property(
-    *             property="permId",
+    *             property="id",
     *             type="string",
     *           ),
     *           @OA\Property(

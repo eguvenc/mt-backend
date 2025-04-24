@@ -20,7 +20,7 @@ class RefreshHandler implements RequestHandlerInterface
 {
     private $config;
 
-    // Bu sinyal frontend tarafından kontrol ediliyor, değerini değiştirmeyin.
+    // This signal is controlled by the frontend, do not change its value.
     protected const LOGOUT_SIGNAL = 'Logout';
 
     public function __construct(

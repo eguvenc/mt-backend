@@ -13,22 +13,22 @@ class RoleSave
      *     format="uuid"
      * )
      */
-    public $roleId;
+    public $id;
     /**
      * @var string
      * @OA\Property()
      */
-    public $roleKey;
+    public $key;
     /**
      * @var string
      * @OA\Property()
      */
-    public $roleName;
+    public $name;
     /**
      * @var number
      * @OA\Property()
      */
-    public $roleLevel;
+    public $level;
     /**
     *  @var array
     *  @OA\Property(

@@ -45,12 +45,12 @@ class RoleModel implements RoleModelInterface
         $select = $sql->select();
         $select->columns(
             [
-                'id' => 'roleId',
-                'name' => 'roleName'
+                'id',
+                'name'
             ]
         );
         $select->from(['r' => 'roles']);
-        $select->order(['roleLevel ASC']);
+        $select->order(['level ASC']);
         $statement = $sql->prepareStatementForSqlObject($select);
         $resultSet = $statement->execute();
         $results = iterator_to_array($resultSet);
@@ -72,9 +72,9 @@ class RoleModel implements RoleModelInterface
         $select = $sql->select();
         $select->from(['r' => 'roles']);
         $select->columns([
-            'roleKey',
+            'key',
         ]);
-        $select->join(['ru' => 'userRoles'], 'r.roleId = ru.roleId', ['userId'], $select::JOIN_LEFT);
+        $select->join(['ru' => 'userRoles'], 'r.id = ru.roleId', ['userId'], $select::JOIN_LEFT);
         $select->where(['ru.userId' => $userId]);
         $statement = $sql->prepareStatementForSqlObject($select);
         $resultSet = $statement->execute();
@@ -82,7 +82,7 @@ class RoleModel implements RoleModelInterface
         // die;
         $roles = array();
         foreach ($resultSet as $row) {
-            $roles[] = $row['roleKey'];
+            $roles[] = $row['key'];
         }
         return $roles;
     }
@@ -100,11 +100,13 @@ class RoleModel implements RoleModelInterface
             return $this->cache->getItem($key);
         }
         $select = $this->roles->getSql()->select();
-        $select->columns(['roleId', 'roleKey', 'roleLevel']);
-        $select->where(['roleKey' => $roleKey]);
+        $select->columns(['id', 'key', 'level']);
+        $select->where(['key' => $roleKey]);
         $resultSet = $this->roles->selectWith($select);
         $row = $resultSet->current();
-        $this->cache->setItem($key, $row);
+        if ($row) {
+            $this->cache->setItem($key, $row);
+        }
         return $row;
     }
 
@@ -114,7 +116,7 @@ class RoleModel implements RoleModelInterface
         $resultSet = $this->roles->selectWith($select);
         $data = array();
         foreach ($resultSet as $row) {
-            $data[] = ['id' => $row['roleKey'], 'name' => $row['roleKey']];
+            $data[] = ['id' => $row['key'], 'name' => $row['key']];
         }
         return $data;
     }
@@ -130,7 +132,7 @@ class RoleModel implements RoleModelInterface
         $resultSet = $this->roles->selectWith($select);
         $levels = array();
         foreach ($resultSet as $row) {
-            $levels[$row['roleKey']] = $row['roleLevel'];
+            $levels[$row['key']] = $row['level'];
         }
         return $levels;
     }
@@ -140,10 +142,10 @@ class RoleModel implements RoleModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'id' => 'roleId',
-            'roleKey',
-            'roleName',
-            'roleLevel',
+            'id',
+            'key',
+            'name',
+            'level',
         ]);
         $select->from(['r' => 'roles']);
         return $select;
@@ -154,9 +156,9 @@ class RoleModel implements RoleModelInterface
         $select = $this->findAllBySelect();
         $this->columnFilters->clear();
         $this->columnFilters->setColumns([
-            'roleKey',
-            'roleName',
-            'roleLevel',
+            'key',
+            'name',
+            'level',
         ]);
         $this->columnFilters->setData($get);
         $this->columnFilters->setSelect($select);
@@ -192,13 +194,13 @@ class RoleModel implements RoleModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'id' => 'roleId',
-            'roleKey',
-            'roleName',
-            'roleLevel',
+            'id',
+            'key',
+            'name',
+            'level',
         ]);
         $select->from(['r' => 'roles']);
-        $select->where(['r.roleId' => $roleId]);
+        $select->where(['r.id' => $roleId]);
 
         // echo $select->getSqlString($this->adapter->getPlatform());
         // die;
@@ -215,7 +217,7 @@ class RoleModel implements RoleModelInterface
         $select = $sql->select();
         $select->columns(
             [
-                'permId',
+                'id',
                 'route',
                 'action',
                 'name',
@@ -224,7 +226,7 @@ class RoleModel implements RoleModelInterface
             ]
         );
         $select->from(['p' => 'permissions']);
-        $select->join(['rp' => 'rolePermissions'], 'p.permId = rp.permId',
+        $select->join(['rp' => 'rolePermissions'], 'p.id = rp.permId',
             [],
         $select::JOIN_LEFT);
         $select->where(['rp.roleId' => $roleId]);
@@ -243,11 +245,11 @@ class RoleModel implements RoleModelInterface
         $select = $sql->select();
         $select->columns(
             [
-                'id' => 'userId',
+                'id',
             ]
         );
         $select->from(['ru' => 'userRoles']);
-        $select->join(['u' => 'users'], 'u.userId = ru.userId',
+        $select->join(['u' => 'users'], 'u.id = ru.userId',
             [
                 'firstname',
                 'lastname',
@@ -272,9 +274,7 @@ class RoleModel implements RoleModelInterface
         $roleId = $data['id'];
         try {
             $this->conn->beginTransaction();
-            $data['roles']['roleId'] = $roleId;
             $this->roles->insert($data['roles']);
-
             $this->rolePermissions->delete(['roleId' => $roleId]);
             if (! empty($data['rolePermissions'])) {
                 foreach ($data['rolePermissions'] as $val) {
@@ -295,7 +295,7 @@ class RoleModel implements RoleModelInterface
         $roleId = $data['id'];
         try {
             $this->conn->beginTransaction();
-            $this->roles->update($data['roles'], ['roleId' => $roleId]);
+            $this->roles->update($data['roles'], ['id' => $roleId]);
             $this->rolePermissions->delete(['roleId' => $roleId]);
             if (! empty($data['rolePermissions'])) {
                 foreach ($data['rolePermissions'] as $val) {
@@ -315,7 +315,7 @@ class RoleModel implements RoleModelInterface
     {
         try {
             $this->conn->beginTransaction();
-            $this->roles->delete(['roleId' => $roleId]);
+            $this->roles->delete(['id' => $roleId]);
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {

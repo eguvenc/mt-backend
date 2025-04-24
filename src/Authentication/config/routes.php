@@ -19,9 +19,4 @@ return function (Application $app, ContainerInterface $container) {
         JwtAuthenticationMiddleware::class,
         Mezzio\Authorization\AuthorizationMiddleware::class,
     ];
-    // FailedLogins (private)
-    $app->route('/api/authentication/failedLogins/delete/:loginId', [...$auth, [Authentication\Handler\FailedLogins\DeleteHandler::class]], ['DELETE']);
-    $app->route('/api/authentication/failedLogins/findAllByPaging', [...$auth, [Authentication\Handler\FailedLogins\FindAllByPagingHandler::class]], ['GET']);
-    $app->route('/api/authentication/failedLoginIps/findAll', [...$auth, [Authentication\Handler\FailedLogins\FindAllIpAdressesHandler::class]], ['GET']);
-    $app->route('/api/authentication/failedLoginUsernames/findAll', [...$auth, [Authentication\Handler\FailedLogins\FindAllUsernamesHandler::class]], ['GET']);
 };

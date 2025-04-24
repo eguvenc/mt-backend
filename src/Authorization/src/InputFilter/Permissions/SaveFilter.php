@@ -37,7 +37,7 @@ class SaveFilter extends InputFilter
                     'name' => $this->request->getMethod() == 'POST' ? NoRecordExists::class : RecordExists::class,
                     'options' => [
                         'table'   => 'permissions',
-                        'field'   => 'permId',
+                        'field'   => 'id',
                         'adapter' => $this->adapter,
                     ]
                 ]

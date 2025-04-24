@@ -8,7 +8,6 @@ use Authorization\Model\RoleModelInterface;
 use Authentication\Model\TokenModelInterface;
 use Psr\Container\ContainerInterface;
 use Laminas\Db\Adapter\Adapter;
-use Laminas\EventManager\EventManagerInterface;
 use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Olobase\Mezzio\Authentication\JwtEncoderInterface;
@@ -43,7 +42,6 @@ class JwtAuthenticationFactory implements FactoryInterface
             $container->get(JwtEncoderInterface::class),
             $container->get(TokenModelInterface::class),
             $container->get(RoleModelInterface::class),
-            $container->get(EventManagerInterface::class),
             $container->has(UserInterface::class) ? $container->get(UserInterface::class) : null
         );
     }

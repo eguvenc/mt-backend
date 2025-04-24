@@ -13,7 +13,7 @@ class PermissionSave
      *     format="uuid"
      * )
      */
-    public $permId;
+    public $id;
     /**
      * @var string
      * @OA\Property()
@@ -24,11 +24,6 @@ class PermissionSave
      * @OA\Property()
      */
     public $name;
-    /**
-     * @var string
-     * @OA\Property()
-     */
-    public $resource;
     /**
     * @var object
     * @OA\Property(
