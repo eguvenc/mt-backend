@@ -1,18 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 192.168.231.130
- Source Server Type    : MySQL
- Source Server Version : 80041
- Source Host           : 192.168.231.130:3306
- Source Schema         : medicine_tracker
-
- Target Server Type    : MySQL
- Target Server Version : 80041
- File Encoding         : 65001
-
- Date: 25/04/2025 19:48:16
-*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -231,5 +216,6 @@ CREATE TABLE `users`  (
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES ('c13e550a-60ee-48d5-bf6e-ed29310640b2', 'demo@example.com', '$2y$10$kQA15ijSHJiS8anknJlGsetWk2QSnXWio.Dsh5enAI49egGPwUYQC', 'Demo', 'Admin', '2024-12-22 12:32:17', '2025-03-16 19:08:14', 1, 1);
+
 
 SET FOREIGN_KEY_CHECKS = 1;

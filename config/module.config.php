@@ -3,5 +3,6 @@ return [
     'Modules',
     'Common',
     'Authorization',
-    'Authentication'
+    'Authentication',
+    'Patients'
 ];

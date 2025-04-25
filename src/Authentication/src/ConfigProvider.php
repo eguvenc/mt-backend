@@ -32,9 +32,14 @@ class ConfigProvider
     {
         return [
             'authentication' => [
-                'tablename' => 'users',
-                'username' => 'email',
-                'password' => 'password',
+                'adapter' => [
+                    'type' => \Laminas\Authentication\Adapter\DbTable\CallbackCheckAdapter::class,
+                    'options' => [
+                        'table' => 'users',
+                        'identity_column' => 'email',
+                        'credential_column' => 'password',
+                    ],
+                ],
                 'form' => [
                     'username' => 'username',
                     'password' => 'password',

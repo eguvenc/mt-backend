@@ -23,28 +23,6 @@ class MyAccountFindMeObject
      */
     public $lastname;
     /**
-     * @var string
-     * @OA\Property()
-     */
-    public $themeColor;
-    /**
-     * @var integer
-     * @OA\Property()
-     */
-    public $active;
-    /**
-    * @var object
-    * @OA\Property(
-    *     ref="#/components/schemas/ObjectId",
-    * )
-    */
-    public $locale;
-    /**
-     * @var integer
-     * @OA\Property()
-     */
-    public $emailActivation;
-    /**
     * @var object
     * @OA\Property(
     *     ref="#/components/schemas/AvatarObject",

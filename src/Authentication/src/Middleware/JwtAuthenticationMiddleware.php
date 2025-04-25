@@ -12,7 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\I18n\Translator\TranslatorInterface as Translator;
 
 class JwtAuthenticationMiddleware implements MiddlewareInterface
 {
@@ -27,13 +26,11 @@ class JwtAuthenticationMiddleware implements MiddlewareInterface
 
     public function __construct(
         array $config,
-        AuthenticationInterface $authentication, 
-        Translator $translator
+        AuthenticationInterface $authentication
     )
     {
         $this->authentication = $authentication;
         $this->config = $config;
-        $this->translator = $translator;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface

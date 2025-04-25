@@ -8,7 +8,6 @@ use Mezzio\Authentication\Exception;
 use Mezzio\Authentication\AuthenticationInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
-use Laminas\I18n\Translator\TranslatorInterface as Translator;
 
 class JwtAuthenticationMiddlewareFactory implements FactoryInterface
 {
@@ -22,8 +21,7 @@ class JwtAuthenticationMiddlewareFactory implements FactoryInterface
         }
         return new JwtAuthenticationMiddleware(
             $container->get('config'), 
-            $authentication, 
-            $container->get(Translator::class)
+            $authentication
         );
     }
 }

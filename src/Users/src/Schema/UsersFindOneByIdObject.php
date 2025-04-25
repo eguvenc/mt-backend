@@ -33,17 +33,12 @@ class UsersFindOneByIdObject
      * @var integer
      * @OA\Property()
      */
-    public $active;
+    public $isActive;
     /**
      * @var integer
      * @OA\Property()
      */
-    public $emailActivation;
-    /**
-     * @var string
-     * @OA\Property()
-     */
-    public $themeColor;
+    public $isEmailActivated;
     /**
     * @var object
     * @OA\Property(
@@ -65,11 +60,4 @@ class UsersFindOneByIdObject
      * )
      */
     public $updatedAt;
-    /**
-     * @var string
-     * @OA\Property(
-     *     format="date-time",
-     * )
-     */
-    public $lastLogin;
 }

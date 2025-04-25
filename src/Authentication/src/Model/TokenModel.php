@@ -120,17 +120,6 @@ class TokenModel implements TokenModelInterface
         ];
         $token = $this->encoder->encode($jwt);
         //
-        // update last login date
-        // 
-        try {
-            $this->conn->beginTransaction();
-            $this->users->update(['lastLogin' => date("Y-m-d H:i:s", $issuedAt)], ['userId' => $userId]);
-            $this->conn->commit();
-        } catch (Exception $e) {
-            $this->conn->rollback();
-            throw $e;
-        }
-        //
         // create token session
         //
         $configSessionTTL = (int)$this->config['token']['session_ttl'] * 60;

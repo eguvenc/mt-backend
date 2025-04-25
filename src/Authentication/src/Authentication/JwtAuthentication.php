@@ -123,7 +123,7 @@ class JwtAuthentication implements AuthenticationInterface
 
     private function checkUserInactive() : bool
     {
-        if (empty($this->rowObject->active)) {
+        if (empty($this->rowObject->isActive)) {
             $this->error(Self::ACCOUNT_IS_INACTIVE_OR_SUSPENDED);
             return true;
         }
@@ -132,7 +132,12 @@ class JwtAuthentication implements AuthenticationInterface
 
     private function checkAuthentication($usernameValue)
     {
-        $result = $this->authAdapter->authenticate();
+        try {
+            $result = $this->authAdapter->authenticate();
+        } catch (\Throwable $e) {
+            var_dump($e->getPrevious() ?: $e);
+            die;
+        }
         if (! $result->isValid()) {
             $this->error(Self::USERNAME_OR_PASSWORD_INCORRECT);
             return false;
@@ -142,7 +147,7 @@ class JwtAuthentication implements AuthenticationInterface
 
     private function checkUserHasRole() : array|bool
     {
-        $roles = $this->roleModel->findRolesByUserId($this->rowObject->userId);
+        $roles = $this->roleModel->findRolesByUserId($this->rowObject->id);
         if (empty($roles)) {
             $this->error(Self::NO_ROLE_DEFINED_ON_THE_ACCOUNT);
             return false;
@@ -153,7 +158,7 @@ class JwtAuthentication implements AuthenticationInterface
     private function getUserDetails() : array
     {
         return [
-            'id' => $this->rowObject->userId,
+            'id' => $this->rowObject->id,
             'email' => $this->rowObject->email,
             'fullname' => (string)$this->rowObject->firstname.' '.(string)$this->rowObject->lastname,
             'avatar' => $this->rowObject->avatar 
@@ -195,7 +200,7 @@ class JwtAuthentication implements AuthenticationInterface
             && $this->payload['data']->details->ip != $this->getIpAddress()
         ) {
             $this->tokenModel->kill(
-                $this->payload['data']->userId,
+                $this->payload['data']->id,
                 $this->payload['jti'],
             );
             $this->error(Self::IP_VALIDATION_FAILED);
@@ -210,7 +215,7 @@ class JwtAuthentication implements AuthenticationInterface
             && $this->payload['data']->details->deviceKey != $this->getDeviceKey($this->request)
         ) {
             $this->tokenModel->kill(
-                $this->payload['data']->userId,
+                $this->payload['data']->id,
                 $this->payload['jti'],
             );
             $this->error(Self::USER_AGENT_VALIDATION_FAILED);

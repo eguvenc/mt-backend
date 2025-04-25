@@ -83,7 +83,8 @@ class UserModel implements UserModelInterface
             'firstname',
             'lastname',
             'email',
-            'active',
+            'isActive',
+            'isEmailActivated',
             'createdAt',
             'userRoles' => new Expression($this->rolesFunction),            
         ]);
@@ -114,7 +115,8 @@ class UserModel implements UserModelInterface
         );
         $this->columnFilters->setWhereColumns(
             [
-                'active',
+                'isActive',
+                'isEmailActivated',
                 'createdAt',
             ]
         );
@@ -187,14 +189,12 @@ class UserModel implements UserModelInterface
                 'firstname',
                 'lastname',
                 'email',
-                'emailActivation',
-                'active',
-                'themeColor',
+                'isEmailActivated',
+                'isActive',
                 'createdAt',
             ]
         );
         $select->from(['u' => 'users']);
-        $select->join(['l' => 'languages'], 'u.locale = l.langId', [], $select::JOIN_LEFT);
         $select->join(['ua' => 'userAvatars'], 'ua.userId = u.userId',
             [
                 'avatar' => new Expression("JSON_OBJECT('image', CONCAT('data:image/png;base64,', TO_BASE64(avatarImage)))"),
@@ -221,8 +221,7 @@ class UserModel implements UserModelInterface
                 'firstname',
                 'lastname',
                 'email',
-                'active',
-                'themeColor',
+                'isActive',
             ]
         );
         $select->from('users');

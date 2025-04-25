@@ -85,13 +85,21 @@
             "options": {
                 "symlink": true
             }
+        },
+        {
+            "type": "path",
+            "url": "./src/Patients",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "autoload": {
         "psr-4": {
             "Common\\": "src/Common/src/",
             "Authorization\\": "src/Authorization/src/",
-            "Authentication\\": "src/Authentication/src/"
+            "Authentication\\": "src/Authentication/src/",
+            "Patients\\": "src/Patients/src/"
         }
     },
     "autoload-dev": {

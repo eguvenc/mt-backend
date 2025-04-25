@@ -30,20 +30,15 @@ class UsersFindAllByPagingObject
      */
     public $lastname;
     /**
-     * @var string
+     * @var integer
      * @OA\Property()
      */
-    public $themeColor;
+    public $isActive;
     /**
      * @var integer
      * @OA\Property()
      */
-    public $active;
-    /**
-     * @var integer
-     * @OA\Property()
-     */
-    public $emailActivation;
+    public $isEmailActivated;
     /**
      * @var string
      * @OA\Property(

@@ -125,14 +125,14 @@ class SaveFilter extends InputFilter
             ],
         ]);
         $this->add([
-            'name' => 'active',
+            'name' => 'isActive',
             'required' => false,
             'filters' => [
                 ['name' => ToInt::class],
             ],
         ]);
         $this->add([
-            'name' => 'emailActivation',
+            'name' => 'isEmailActivated',
             'required' => false,
             'filters' => [
                 ['name' => ToInt::class],
@@ -164,21 +164,6 @@ class SaveFilter extends InputFilter
             ]
         ]);
         $this->add($objectFilter, 'avatar');
-        
-        $this->add([
-            'name' => 'themeColor',
-            'required' => false,
-            'validators' => [
-                [
-                    'name' => StringLength::class,
-                    'options' => [
-                        'encoding' => 'UTF-8',
-                        'min' => 7,
-                        'max' => 7,
-                    ],
-                ],
-            ],
-        ]);
 
         $this->setData($data);
     }

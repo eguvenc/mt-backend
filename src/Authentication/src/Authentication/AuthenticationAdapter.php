@@ -19,12 +19,15 @@ class AuthenticationAdapter extends CallbackCheckAdapter
      */
     protected function authenticateCreateSelect()
     {
+        $tableAlias = 'u';
+
         // get select
         $dbSelect = clone $this->getDbSelect();
-        $dbSelect->from($this->tableName)
+        $dbSelect->from([$tableAlias => $this->tableName])
             ->columns([Sql\Select::SQL_STAR])
             ->join(
-                ['ua' => 'userAvatars'], 'ua.userId = '.$this->tableName.'.userId',
+                ['ua' => 'userAvatars'],
+                'ua.userId = '.$tableAlias.'.id',
                 [
                     'avatar' => new Expression("TO_BASE64(avatarImage)"),
                     'mimeType',

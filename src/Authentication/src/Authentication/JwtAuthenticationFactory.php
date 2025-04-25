@@ -27,11 +27,12 @@ class JwtAuthenticationFactory implements FactoryInterface
         $passwordValidation = function ($hash, $password) {
             return password_verify($password, $hash);
         };
+
         $adapter = new AuthenticationAdapter(  // CallbackCheckAdapter
             $container->get(Adapter::class),
-            $config['authentication']['tablename'],
-            $config['authentication']['username'],
-            $config['authentication']['password'],
+            $config['authentication']['adapter']['options']['table'],
+            $config['authentication']['adapter']['options']['identity_column'],
+            $config['authentication']['adapter']['options']['credential_column'],
             $passwordValidation
         );
         return new JwtAuthentication(
