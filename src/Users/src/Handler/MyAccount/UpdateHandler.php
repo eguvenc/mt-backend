@@ -8,7 +8,7 @@ use Users\Model\UserModelInterface;
 use Users\Schema\MyAccount\MyAccountSave;
 use Users\InputFilter\MyAccount\SaveFilter;
 use Olobase\Mezzio\DataManagerInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Mezzio\Authentication\UserInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;

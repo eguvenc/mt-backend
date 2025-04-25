@@ -6,7 +6,7 @@ namespace Users\Handler\MyAccount;
 
 use Users\Model\UserModelInterface;
 use Users\InputFilter\MyAccount\PasswordChangeFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
+use Common\Helper\ErrorWrapperInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\InputFilter\InputFilterPluginManager;

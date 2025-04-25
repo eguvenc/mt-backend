@@ -6,7 +6,7 @@ namespace Users\Handler;
 
 use Users\Model\UserModelInterface;
 use Users\Filter\PasswordSaveFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

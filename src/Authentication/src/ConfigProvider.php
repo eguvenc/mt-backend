@@ -38,7 +38,7 @@ class ConfigProvider
                 'form' => [
                     'username' => 'username',
                     'password' => 'password',
-                ]
+                ],
             ],
             'dependencies' => $this->getDependencies(),
         ];

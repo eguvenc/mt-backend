@@ -11,10 +11,9 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Olobase\Mezzio\Authentication\JwtEncoderInterface as JwtEncoder;
 use Mezzio\Authentication\AuthenticationInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
 
 class RefreshHandler implements RequestHandlerInterface
 {
@@ -25,7 +24,6 @@ class RefreshHandler implements RequestHandlerInterface
 
     public function __construct(
         array $config,
-        private TranslatorInterface $translator,
         private AuthenticationInterface $authentication,
         private TokenModelInterface $tokenModel,
         private Error $error
@@ -88,7 +86,7 @@ class RefreshHandler implements RequestHandlerInterface
             if (json_last_error() != JSON_ERROR_NONE) {
                 return new JsonResponse(
                     [
-                        'data' => ['error' => $this->translator->translate("Invalid token")]
+                        'data' => ['error' => "Invalid token"]
                     ],
                     401
                 );
@@ -129,7 +127,7 @@ class RefreshHandler implements RequestHandlerInterface
 
         return new JsonResponse(
             [
-                'data' => ['info' => $this->translator->translate("Token not expired to refresh")]
+                'data' => ['info' => "Token not expired to refresh"]
             ]
         );
     }

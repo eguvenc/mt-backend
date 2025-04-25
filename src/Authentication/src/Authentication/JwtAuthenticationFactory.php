@@ -8,7 +8,6 @@ use Authorization\Model\RoleModelInterface;
 use Authentication\Model\TokenModelInterface;
 use Psr\Container\ContainerInterface;
 use Laminas\Db\Adapter\Adapter;
-use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Olobase\Mezzio\Authentication\JwtEncoderInterface;
 use Laminas\Authentication\Adapter\DbTable\CallbackCheckAdapter;
@@ -28,7 +27,7 @@ class JwtAuthenticationFactory implements FactoryInterface
         $passwordValidation = function ($hash, $password) {
             return password_verify($password, $hash);
         };
-        $authAdapter = new AuthenticationAdapter(  // CallbackCheckAdapter
+        $adapter = new AuthenticationAdapter(  // CallbackCheckAdapter
             $container->get(Adapter::class),
             $config['authentication']['tablename'],
             $config['authentication']['username'],
@@ -37,8 +36,7 @@ class JwtAuthenticationFactory implements FactoryInterface
         );
         return new JwtAuthentication(
             $config,
-            $authAdapter,
-            $container->get(TranslatorInterface::class),
+            $adapter,
             $container->get(JwtEncoderInterface::class),
             $container->get(TokenModelInterface::class),
             $container->get(RoleModelInterface::class),

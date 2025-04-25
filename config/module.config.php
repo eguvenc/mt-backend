@@ -1,7 +1,7 @@
 <?php
 return [
-    'Authentication',
-    'Authorization',
     'Modules',
-    'Common'
+    'Common',
+    'Authorization',
+    'Authentication'
 ];

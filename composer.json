@@ -3,6 +3,8 @@
     "type": "project",
     "keywords": [],
     "homepage": "https://oloma.dev",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
         "sort-packages": true,
         "allow-plugins": {
@@ -45,6 +47,8 @@
         "mezzio/mezzio": "^3.7",
         "mezzio/mezzio-helpers": "^5.7",
         "mezzio/mezzio-laminasrouter": "^3.9.0",
+        "olobase/authentication": "dev-main",
+        "olobase/authorization": "dev-main",
         "olobase/mezzio": "^2.0",
         "predis/predis": "^2.3",
         "ramsey/uuid": "^4.7",
@@ -63,7 +67,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./src/Authentication",
+            "url": "./src/Common",
             "options": {
                 "symlink": true
             }
@@ -77,7 +81,7 @@
         },
         {
             "type": "path",
-            "url": "./src/Common",
+            "url": "./src/Authentication",
             "options": {
                 "symlink": true
             }
@@ -85,9 +89,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Authentication\\": "src/Authentication/src/",
+            "Common\\": "src/Common/src/",
             "Authorization\\": "src/Authorization/src/",
-            "Common\\": "src/Common/src/"
+            "Authentication\\": "src/Authentication/src/"
         }
     },
     "autoload-dev": {

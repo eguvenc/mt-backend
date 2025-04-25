@@ -11,12 +11,10 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
 
 class LogoutHandler implements RequestHandlerInterface
 {
     public function __construct(
-        private TranslatorInterface $translator,
         private TokenModelInterface $tokenModel
     ) {
     }
@@ -47,7 +45,7 @@ class LogoutHandler implements RequestHandlerInterface
             return new JsonResponse(
                 [
                     'data' => [
-                        'error' => $this->translator->translate("Invalid token")
+                        'error' =>"Invalid token"
                     ]
                 ], 
                 401
@@ -72,7 +70,7 @@ class LogoutHandler implements RequestHandlerInterface
                 return new JsonResponse(
                     [
                         'data' => [
-                            'error' => $this->translator->translate("Invalid token")
+                            'error' => "Invalid token"
                         ]
                     ], 
                     401

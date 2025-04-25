@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Authentication\Handler;
 
+use Common\Helper\ErrorWrapperInterface;
 use Authentication\Model\TokenModelInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
 use Mezzio\Authentication\AuthenticationInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;

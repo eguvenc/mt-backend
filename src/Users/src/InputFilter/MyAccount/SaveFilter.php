@@ -114,19 +114,6 @@ class SaveFilter extends InputFilter
             ],
         ]);
 
-        $this->add([
-            'name' => 'locale',
-            'required' => true,
-            'validators' => [
-                [
-                    'name' => InArray::class,
-                    'options' => [
-                        'haystack' => $locales,
-                    ],
-                ]
-            ],
-        ]);
-
         $objectFilter = $this->filter->get(ObjectInputFilter::class);
         $objectFilter->add([
             'name' => 'image',

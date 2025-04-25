@@ -11,7 +11,6 @@ use Authentication\EventListener\LoginListener;
 use Laminas\EventManager\EventManagerInterface;
 use Olobase\Mezzio\Authentication\JwtEncoderInterface;
 use Olobase\Mezzio\Exception\BadTokenException;
-use Laminas\I18n\Translator\TranslatorInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Authentication\Adapter\AdapterInterface;
 use Mezzio\Authentication\AuthenticationInterface;
@@ -51,7 +50,6 @@ class JwtAuthentication implements AuthenticationInterface
     protected $request;
     protected $rowObject;
     protected $authAdapter;
-    protected $translator;
     protected $encoder;
     protected $tokenModel;
     protected $roleModel;
@@ -64,7 +62,6 @@ class JwtAuthentication implements AuthenticationInterface
     public function __construct(
         array $config,
         AdapterInterface $authAdapter,
-        TranslatorInterface $translator,
         JwtEncoderInterface $encoder,
         TokenModelInterface $tokenModel,
         RoleModelInterface $roleModel,
@@ -72,7 +69,6 @@ class JwtAuthentication implements AuthenticationInterface
     ) {
         $this->config = $config;
         $this->authAdapter = $authAdapter;
-        $this->translator = $translator;
         $this->encoder = $encoder;
         $this->tokenModel = $tokenModel;
         $this->roleModel = $roleModel;
@@ -108,6 +104,7 @@ class JwtAuthentication implements AuthenticationInterface
         $this->authAdapter->setIdentity($post[$usernameField]);
         $this->authAdapter->setCredential($post[$passwordField]);
 
+        $usernameValue = $post[$usernameField];
         $result = $this->checkAuthentication($usernameValue);
         if (!$result) {
             return null;
@@ -275,13 +272,15 @@ class JwtAuthentication implements AuthenticationInterface
 
     protected function error(string $errorKey)
     {
-        if (empty(Self::$messageTemplates[$errorKey])) {
-            $this->code = $errorKey;
-            $this->error = $this->translator->translate($errorKey);
-            return;
-        }
-        $this->code = $errorKey;
-        $this->error = $this->translator->translate(Self::$messageTemplates[$errorKey]);
+        $this->error = $errorKey;
+
+        // if (empty(Self::$messageTemplates[$errorKey])) {
+        //     $this->code = $errorKey;
+        //     $this->error = $this->translator->translate($errorKey);
+        //     return;
+        // }
+        // $this->code = $errorKey;
+        // $this->error = $this->translator->translate(Self::$messageTemplates[$errorKey]);
     }
 
     private function getDeviceKey()
