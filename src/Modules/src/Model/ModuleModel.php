@@ -43,20 +43,26 @@ class ModuleModel implements ModuleModelInterface
         }
         try {
             $sql = new Sql($this->adapter);
-            $select = $sql->select()
-                ->from(['m' => 'modules'])
-                ->columns([
-                    'id' => 'moduleId',
+            $select = $sql->select();
+            $select->from(['m' => 'modules']);
+            $select->columns([
+                    'id',
                     'name',
                     'version',
-                ])
-                ->where(['isActive' => 1])
-                ->order('name ASC');
+                ]);
+
+            if (getenv("APP_ENV") != "local") {
+                $select->where(['isActive' => 1]);    
+            }
+            $select->order('name ASC');
 
             $statement = $sql->prepareStatementForSqlObject($select);
             $resultSet = $statement->execute();
             $results = iterator_to_array($resultSet, false);
 
+            foreach ($results as &$result) { // build cebabCase ui names for frontend app
+                $result['uiName'] = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $result['name']));
+            }
             if (!empty($results)) {
                 $this->cache->setItem($key, $results);
             }
@@ -72,7 +78,7 @@ class ModuleModel implements ModuleModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'id' => 'moduleId',
+            'id',
             'name',
             'version',
             'isActive'
@@ -122,13 +128,13 @@ class ModuleModel implements ModuleModelInterface
         $sql = new Sql($this->adapter);
         $select = $sql->select();
         $select->columns([
-            'id' => 'moduleId',
+            'id',
             'name',
             'version',
             'isActive'
         ]);
         $select->from(['m' => 'modules']);
-        $select->where(['m.moduleId' => $moduleId]);
+        $select->where(['m.id' => $moduleId]);
 
         // echo $select->getSqlString($this->adapter->getPlatform());
         // die;
@@ -141,10 +147,9 @@ class ModuleModel implements ModuleModelInterface
 
     public function create(array $data) : void
     {
-        $moduleId = $data['id'];
+        unset($data['modules']['id']);
         try {
             $this->conn->beginTransaction();
-            $data['modules']['moduleId'] = $moduleId;
             $this->modules->insert($data['modules']);
             $this->deleteCache();
             $this->conn->commit();
@@ -156,10 +161,10 @@ class ModuleModel implements ModuleModelInterface
 
     public function update(array $data) : void
     {
-        $moduleId = $data['id'];
+        unset($data['modules']['id']);
         try {
             $this->conn->beginTransaction();
-            $this->modules->update($data['modules'], ['moduleId' => $moduleId]);
+            $this->modules->update($data['modules'], ['id' => $data['id']]);
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
@@ -172,7 +177,7 @@ class ModuleModel implements ModuleModelInterface
     {
         try {
             $this->conn->beginTransaction();
-            $this->modules->delete(['moduleId' => $moduleId]);
+            $this->modules->delete(['id' => $moduleId]);
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {

@@ -1,8 +1,9 @@
 <?php
 return [
-    'Modules',
     'Common',
     'Authorization',
     'Authentication',
-    'Patients'
+    'Patients',
+    'Modules',
+    'Users'
 ];

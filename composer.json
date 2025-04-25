@@ -92,6 +92,20 @@
             "options": {
                 "symlink": true
             }
+        },
+        {
+            "type": "path",
+            "url": "./src/Modules",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./src/Users",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "autoload": {
@@ -99,7 +113,9 @@
             "Common\\": "src/Common/src/",
             "Authorization\\": "src/Authorization/src/",
             "Authentication\\": "src/Authentication/src/",
-            "Patients\\": "src/Patients/src/"
+            "Patients\\": "src/Patients/src/",
+            "Modules\\": "src/Modules/src/",
+            "Users\\": "src/Users/src/"
         }
     },
     "autoload-dev": {

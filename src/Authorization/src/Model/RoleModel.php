@@ -245,7 +245,7 @@ class RoleModel implements RoleModelInterface
         $select = $sql->select();
         $select->columns(
             [
-                'id',
+                'roleId',
             ]
         );
         $select->from(['ru' => 'userRoles']);
@@ -254,7 +254,7 @@ class RoleModel implements RoleModelInterface
                 'firstname',
                 'lastname',
                 'email',
-                'active',
+                'isActive',
                 'createdAt',
             ],
         $select::JOIN_LEFT);

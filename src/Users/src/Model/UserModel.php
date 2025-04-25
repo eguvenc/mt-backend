@@ -195,12 +195,12 @@ class UserModel implements UserModelInterface
             ]
         );
         $select->from(['u' => 'users']);
-        $select->join(['ua' => 'userAvatars'], 'ua.userId = u.userId',
+        $select->join(['ua' => 'userAvatars'], 'ua.userId = u.id',
             [
                 'avatar' => new Expression("JSON_OBJECT('image', CONCAT('data:image/png;base64,', TO_BASE64(avatarImage)))"),
             ],
         $select::JOIN_LEFT);
-        $select->where(['u.userId' => $userId]);
+        $select->where(['u.id' => $userId]);
 
         // echo $select->getSqlString($this->adapter->getPlatform());
         // die;

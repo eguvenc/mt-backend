@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Users\InputFilter\MyAccount;
 
-use Common\Model\CommonModelInterface;
 use Common\InputFilter\InputFilter;
 use Common\InputFilter\Filters\ToFile;
 use Common\InputFilter\ObjectInputFilter;
@@ -25,7 +24,7 @@ class SaveFilter extends InputFilter
     protected $adapter;
 
     public function __construct(
-        private CommonModelInterface $commonModel,
+        private AdapterInterface $adapter,
         private InputFilterPluginManager $filter,
         private ServerRequestInterface $request
     )
@@ -36,7 +35,6 @@ class SaveFilter extends InputFilter
     public function setInputData(array $data)
     {
         $method = $this->request->getMethod();
-        $locales = $this->commonModel->findLocales();
 
         $this->add([
             'name' => 'email',

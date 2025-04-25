@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Users\InputFilter;
 
-use Common\Model\CommonModelInterface;
+use Laminas\Db\Adapter\AdapterInterface;
 use Common\InputFilter\InputFilter;
 use Common\InputFilter\Filters\ToFile;
 use Common\InputFilter\ObjectInputFilter;
@@ -25,12 +25,11 @@ class SaveFilter extends InputFilter
     protected $adapter;
 
     public function __construct(
-        private CommonModelInterface $commonModel,
+        private AdapterInterface $adapter,
         private InputFilterPluginManager $filter,
         private ServerRequestInterface $request
     )
     {
-        $this->adapter = $commonModel->getAdapter();
     }
 
     public function setInputData(array $data)

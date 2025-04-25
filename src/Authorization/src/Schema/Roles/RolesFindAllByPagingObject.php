@@ -18,15 +18,15 @@ class RolesFindAllByPagingObject
      * @var string
      * @OA\Property()
      */
-    public $roleKey;
+    public $key;
     /**
      * @var string
      * @OA\Property()
      */
-    public $roleName;
+    public $name;
     /**
      * @var string
      * @OA\Property()
      */
-    public $roleLevel;
+    public $level;
 }

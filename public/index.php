@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 define('PROJECT_ROOT', dirname(__DIR__));
-define('CACHE_ROOT_KEY', 'olobase_app:');
+define('CACHE_ROOT_KEY', 'mt_app:');
 define('CACHE_TMP_FILE_KEY', 'tmp_file_');
 define('SESSION_KEY', CACHE_ROOT_KEY.'sessions:');
 

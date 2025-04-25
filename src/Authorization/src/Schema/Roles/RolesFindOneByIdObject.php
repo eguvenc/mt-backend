@@ -18,28 +18,28 @@ class RolesFindOneByIdObject
      * @var string
      * @OA\Property()
      */
-    public $roleName;
+    public $name;
     /**
      * @var string
      * @OA\Property()
      */
-    public $roleKey;
+    public $key;
     /**
      * @var string
      * @OA\Property()
      */
-    public $roleLevel;
+    public $level;
     /**
     *  @var array
     *  @OA\Property(
     *      type="array",
     *      @OA\Items(
     *           @OA\Property(
-    *             property="permId",
+    *             property="id",
     *             type="string",
     *           ),
     *           @OA\Property(
-    *             property="moduleName",
+    *             property="name",
     *             type="string",
     *           ),
     *           @OA\Property(
@@ -76,7 +76,7 @@ class RolesFindOneByIdObject
     *             type="string",
     *           ),
     *           @OA\Property(
-    *             property="active",
+    *             property="isActive",
     *             type="number",
     *           ),
     *           @OA\Property(
