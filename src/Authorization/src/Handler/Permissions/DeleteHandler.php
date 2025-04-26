@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Authorization\Handler\Permissions;
 
-use Authorization\Filter\Permissions\DeleteFilter;
+use Authorization\InputFilter\Permissions\DeleteFilter;
 use Olobase\Mezzio\Authorization\PermissionModelInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

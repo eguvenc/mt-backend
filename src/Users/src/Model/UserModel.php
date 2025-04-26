@@ -11,7 +11,7 @@ use Laminas\Paginator\Paginator;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\TableGateway\TableGatewayInterface;
-use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
+use Laminas\Cache\Storage\StorageInterface;
 
 class UserModel implements UserModelInterface
 {
@@ -25,18 +25,45 @@ class UserModel implements UserModelInterface
         private TableGatewayInterface $users,
         private TableGatewayInterface $userAvatars,
         private TableGatewayInterface $userRoles,
+        private StorageInterface $cache,
         private ColumnFiltersInterface $columnFilters,
-        private SimpleCacheInterface $simpleCache
+
     ) {
         $this->adapter = $users->getAdapter();
-        $this->users = $users;
-        $this->userAvatars = $userAvatars;
-        $this->userRoles = $userRoles;
-        $this->columnFilters = $columnFilters;
-        $this->simpleCache = $simpleCache;
         $this->conn = $this->adapter->getDriver()->getConnection();
     }
     
+    public function findAll(): array
+    {
+        $key = CACHE_ROOT_KEY.Self::class.':'. __FUNCTION__;
+        if ($this->cache->hasItem($key)) {
+            return $this->cache->getItem($key);
+        }
+        try {
+            $sql = new Sql($this->adapter);
+            $select = $sql->select();
+            
+            $select->columns(
+                [
+                    'id',
+                    'name' => new Expression("CONCAT(u.firstname, ' ', u.lastname)"),
+                ]
+            );
+            $select->from(['u' => 'users']);
+
+            $statement = $sql->prepareStatementForSqlObject($select);
+            $resultSet = $statement->execute();
+            $results = iterator_to_array($resultSet, false);
+        
+            if (!empty($results)) {
+                $this->cache->setItem($key, $results);
+            }
+            return $results;
+        } catch (\Throwable $e) {
+            return [];
+        }
+    }
+
     public function findAllBySelect()
     {
         $platform = $this->adapter->getPlatform();
@@ -102,7 +129,8 @@ class UserModel implements UserModelInterface
             'lastname',
             'email',
             'userRoles',
-            'active',
+            'isActive',
+            'isEmailActivated',
             'createdAt',
         ]);
         $this->columnFilters->setLikeColumns(
@@ -246,6 +274,7 @@ class UserModel implements UserModelInterface
                 $this->userAvatars->insert(['userId' => $userId, 'avatarImage' => $data['avatar']['image']]);
             }
             $this->userRoles->insert(['userId' => $userId, 'roleId' => Self::DEFAULT_USER_ROLE_ID]);
+            $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
             $this->conn->rollback();
@@ -280,6 +309,7 @@ class UserModel implements UserModelInterface
                     ]
                 );
             }
+            $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
             $this->conn->rollback();
@@ -293,6 +323,7 @@ class UserModel implements UserModelInterface
             $this->conn->beginTransaction();
             $this->users->delete(['id' => $userId]);        
             $this->userAvatars->delete(['userId' => $userId]);
+            $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
             $this->conn->rollback();
@@ -311,6 +342,11 @@ class UserModel implements UserModelInterface
             $this->conn->rollback();
             throw $e;
         }
+    }
+
+    private function deleteCache() : void
+    {
+        $this->cache->removeItem(CACHE_ROOT_KEY.Self::class.':findAll');
     }
 
     public function getAdapter() : AdapterInterface

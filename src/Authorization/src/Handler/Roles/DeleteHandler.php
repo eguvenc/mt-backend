@@ -6,7 +6,7 @@ namespace Authorization\Handler\Roles;
 
 use Authorization\Model\RoleModelInterface;
 use Authorization\InputFilter\Roles\DeleteFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

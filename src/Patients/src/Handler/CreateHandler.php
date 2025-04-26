@@ -8,7 +8,7 @@ use Patients\Schema\PatientSave;
 use Patients\InputFilter\SaveFilter;
 use Patients\Model\PatientModel;
 use Olobase\Mezzio\DataManagerInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

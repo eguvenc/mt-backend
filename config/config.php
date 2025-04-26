@@ -13,6 +13,7 @@ $cacheConfig = [
 
 // Let's merge the configuration with ConfigAggregator
 $aggregator = new ConfigAggregator([
+  \Medicines\ConfigProvider::class,
   \Users\ConfigProvider::class,
   \Modules\ConfigProvider::class,
   \Patients\ConfigProvider::class,

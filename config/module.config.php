@@ -5,5 +5,6 @@ return [
     'Authentication',
     'Patients',
     'Modules',
-    'Users'
+    'Users',
+    'Medicines'
 ];

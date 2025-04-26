@@ -15,12 +15,17 @@ class PatientsFindOneByIdObject
      */
     public $id;
     /**
+     * @var string
+     * @OA\Property()
+     */
+    public $name;
+    /**
     * @var object
     * @OA\Property(
     *     ref="#/components/schemas/ObjectId",
     * )
     */
-    public $user;
+    public $userId;
     /**
     * @var object
     * @OA\Property(

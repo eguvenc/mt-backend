@@ -22,8 +22,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class SaveFilter extends InputFilter
 {
-    protected $adapter;
-
     public function __construct(
         private AdapterInterface $adapter,
         private InputFilterPluginManager $filter,

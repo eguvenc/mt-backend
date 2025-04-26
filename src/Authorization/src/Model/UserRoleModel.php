@@ -64,7 +64,7 @@ class UserRoleModel implements UserRoleModelInterface
         $select->from(['u' => 'users']);
         $select->join(
             ['ur' => 'userRoles'],
-            'u.userId = ur.userId',
+            'u.id = ur.userId',
             [],
             $select::JOIN_LEFT
         );

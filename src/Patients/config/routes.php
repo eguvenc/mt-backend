@@ -13,6 +13,7 @@ return function (Application $app, ContainerInterface $container) {
         Mezzio\Authorization\AuthorizationMiddleware::class,
     ];
     // Patients
+    $app->route('/api/patients/findAll', [...$auth, ...[Patients\Handler\FindAllHandler::class]], ['GET']);
     $app->route('/api/patients/findAllByPaging', [...$auth, ...[Patients\Handler\FindAllByPagingHandler::class]], ['GET']);
     $app->route('/api/patients/findOneById/:patientId', [...$auth, ...[Patients\Handler\FindOneByIdHandler::class]], ['GET']);
     $app->route('/api/patients/create', [...$auth, ...[Patients\Handler\CreateHandler::class]], ['POST']);

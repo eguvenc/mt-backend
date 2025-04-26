@@ -1,0 +1,8 @@
+{
+    "name": "olobase/medicines",
+    "description": "Medicines module for medicine tracker app",
+    "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {}
+}

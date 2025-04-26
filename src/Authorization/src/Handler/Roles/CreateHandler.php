@@ -8,7 +8,7 @@ use Authorization\Model\RoleModelInterface;
 use Authorization\Schema\Roles\RoleSave;
 use Authorization\InputFilter\Roles\SaveFilter;
 use Olobase\Mezzio\DataManagerInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

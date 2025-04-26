@@ -7,7 +7,7 @@ namespace Authorization\Handler\Roles;
 use Authorization\Model\RoleModelInterface;
 use Authorization\InputFilter\Roles\SaveFilter;
 use Olobase\Mezzio\DataManagerInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
+use Common\Helper\ErrorWrapperInterface;
 use Mezzio\Authentication\AuthenticationInterface;
 use Psr\Container\ContainerInterface;
 use Laminas\Db\Adapter\AdapterInterface;

@@ -106,6 +106,13 @@
             "options": {
                 "symlink": true
             }
+        },
+        {
+            "type": "path",
+            "url": "./src/Medicines",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "autoload": {
@@ -115,7 +122,8 @@
             "Authentication\\": "src/Authentication/src/",
             "Patients\\": "src/Patients/src/",
             "Modules\\": "src/Modules/src/",
-            "Users\\": "src/Users/src/"
+            "Users\\": "src/Users/src/",
+            "Medicines\\": "src/Medicines/src/"
         }
     },
     "autoload-dev": {

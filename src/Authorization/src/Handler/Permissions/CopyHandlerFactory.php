@@ -8,7 +8,7 @@ use Authorization\Model\PermissionModel;
 use Authorization\Filter\Permissions\SaveFilter;
 use Olobase\Mezzio\DataManagerInterface;
 use Olobase\Mezzio\Authorization\PermissionModelInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
+use Common\Helper\ErrorWrapperInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\InputFilter\InputFilterPluginManager;

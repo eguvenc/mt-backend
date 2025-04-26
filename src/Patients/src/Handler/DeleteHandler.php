@@ -6,7 +6,7 @@ namespace Patients\Handler;
 
 use Patients\Model\PatientModel;
 use Patients\InputFilter\DeleteFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,7 +34,7 @@ class DeleteHandler implements RequestHandlerInterface
      *
      *   @OA\Parameter(
      *       in="path",
-     *       name="brandId",
+     *       name="patientId",
      *       required=true,
      *       description="Patient uuid",
      *       @OA\Schema(

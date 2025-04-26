@@ -52,7 +52,7 @@ class ModuleModel implements ModuleModelInterface
                 ]);
 
             if (getenv("APP_ENV") != "local") {
-                $select->where(['isActive' => 1]);    
+                $select->where(['isActive' => true]);    
             }
             $select->order('name ASC');
 
@@ -60,9 +60,12 @@ class ModuleModel implements ModuleModelInterface
             $resultSet = $statement->execute();
             $results = iterator_to_array($resultSet, false);
 
-            foreach ($results as &$result) { // build cebabCase ui names for frontend app
+            // Her eleman için uiName ekle
+            foreach ($results as &$result) {
+                // Kebap case formatında uiName oluştur
                 $result['uiName'] = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $result['name']));
             }
+
             if (!empty($results)) {
                 $this->cache->setItem($key, $results);
             }
@@ -72,7 +75,7 @@ class ModuleModel implements ModuleModelInterface
             return [];
         }
     }
-
+    
     public function findAllBySelect()
     {
         $sql = new Sql($this->adapter);
@@ -147,7 +150,6 @@ class ModuleModel implements ModuleModelInterface
 
     public function create(array $data) : void
     {
-        unset($data['modules']['id']);
         try {
             $this->conn->beginTransaction();
             $this->modules->insert($data['modules']);

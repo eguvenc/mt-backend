@@ -71,23 +71,6 @@ class SaveFilter extends InputFilter
                 ],
             ],
         ]);
-        $this->add([
-            'name' => 'resource',
-            'required' => true,
-            'filters' => [
-                ['name' => StringTrim::class],
-            ],
-            'validators' => [
-                [
-                    'name' => StringLength::class,
-                    'options' => [
-                        'encoding' => 'UTF-8',
-                        'min' => 2,
-                        'max' => 100,
-                    ],
-                ],
-            ],
-        ]);  
 
         $objectFilter = $this->filter->get(ObjectInputFilter::class);
         $objectFilter->add([

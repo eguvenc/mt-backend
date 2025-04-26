@@ -16,10 +16,15 @@ class PatientsFindAllByPagingObject
     public $id;
     /**
      * @var string
-     * @OA\Property(
-     *     format="uuid"
-     * )
+     * @OA\Property()
      */
+    public $name;
+    /**
+    * @var object
+    * @OA\Property(
+    *     ref="#/components/schemas/ObjectId",
+    * )
+    */
     public $userId;
     /**
     * @var object

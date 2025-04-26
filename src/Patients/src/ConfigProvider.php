@@ -40,6 +40,7 @@ class ConfigProvider
                 Handler\CreateHandler::class => Handler\CreateHandlerFactory::class,
                 Handler\DeleteHandler::class => Handler\DeleteHandlerFactory::class,
                 Handler\UpdateHandler::class => Handler\UpdateHandlerFactory::class,
+                Handler\FindAllHandler::class => Handler\FindAllHandlerFactory::class,
                 Handler\FindOneByIdHandler::class => Handler\FindOneByIdHandlerFactory::class,
                 Handler\FindAllByPagingHandler::class => Handler\FindAllByPagingHandlerFactory::class,
 
@@ -47,8 +48,9 @@ class ConfigProvider
                 Model\PatientModel::class => function ($container) {
                     $dbAdapter = $container->get(AdapterInterface::class);
                     $patients = new TableGateway('patients', $dbAdapter, null, new ResultSet(ResultSet::TYPE_ARRAY));
+                    $cacheStorage = $container->get(StorageInterface::class);
                     $columnFilters = $container->get(ColumnFiltersInterface::class);
-                    return new Model\PatientModel($patients, $columnFilters);
+                    return new Model\PatientModel($patients, $cacheStorage, $columnFilters);
                 },
             ],
         ];
@@ -61,8 +63,8 @@ class ConfigProvider
             'factories' => [
                 InputFilter\SaveFilter::class => InputFilter\SaveFilterFactory::class,
                 InputFilter\DeleteFilter::class => InputFilter\DeleteFilterFactory::class,
-                InputFilter\Models\SaveFilter::class => InputFilter\Models\SaveFilterFactory::class,
-                InputFilter\Models\DeleteFilter::class => InputFilter\Models\DeleteFilterFactory::class,
+                // InputFilter\Intakes\SaveFilter::class => InputFilter\Intakes\SaveFilterFactory::class,
+                // InputFilter\Intakes\DeleteFilter::class => InputFilter\Intakes\DeleteFilterFactory::class,
             ]
         ];
     }

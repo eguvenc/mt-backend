@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Patients\Model;
 
-use Common\Helper\ImageHelper;
 use Common\Helper\RandomStringHelper;
 
 use Exception;
@@ -20,6 +19,8 @@ class PatientModel
 {
     private $conn;
     private $adapter;
+    private $genderFunction;
+    private $ageGroupFunction;
     private $patientNameFunction;
 
     public function __construct(
@@ -29,6 +30,52 @@ class PatientModel
     ) {
         $this->adapter = $patients->getAdapter();
         $this->conn = $this->adapter->getDriver()->getConnection();
+        $this->patientNameFunction = "CONCAT(u.firstname, ' ', u.lastname)";
+    }
+
+    public function findAll(): array
+    {
+        $key = CACHE_ROOT_KEY.Self::class.':'. __FUNCTION__;
+        if ($this->cache->hasItem($key)) {
+            return $this->cache->getItem($key);
+        }
+        try {
+            $sql = new Sql($this->adapter);
+            $select = $sql->select();
+            
+            $select->columns([
+                'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))"),
+                'ageGroup' => new Expression("JSON_OBJECT('id', p.ageGroup, 'name', 
+                    CASE 
+                        WHEN p.ageGroup = 'infant' THEN 'Infant'
+                        WHEN p.ageGroup = 'adult' THEN 'Adult'
+                        ELSE 'Unknown'
+                    END
+                )"),
+            ]);
+            $select->from(['p' => 'patients']);
+            $select->join(
+                ['u' => 'users'],
+                'u.id = p.userId',
+                [
+                    'id' => 'userId',
+                    'name' => new Expression($this->patientNameFunction)
+                ],
+                $select::JOIN_LEFT
+            );
+
+            $statement = $sql->prepareStatementForSqlObject($select);
+            $resultSet = $statement->execute();
+            $results = iterator_to_array($resultSet, false);
+
+            if (!empty($results)) {
+                $this->cache->setItem($key, $results);
+            }
+
+            return $results;
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 
     public function findAllBySelect()
@@ -36,22 +83,25 @@ class PatientModel
         $sql = new Sql($this->adapter);
         $select = $sql->select();
 
-        $this->patientNameFunction = "CONCAT(u.firstname, ' ', u.lastname)";
-        $select->columns([
-            'gender' => new Expression("JSON_OBJECT('id', p.gender, 'gender', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))"),
-            'ageGroup' => new Expression("JSON_OBJECT('id', p.ageGroup, 'ageGroup', p.ageGroup, 'name', 
+        $this->genderFunction = "JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))";
+        $this->ageGroupFunction = "JSON_OBJECT('id', p.ageGroup, 'name', 
                 CASE 
                     WHEN p.ageGroup = 'infant' THEN 'Infant'
                     WHEN p.ageGroup = 'adult' THEN 'Adult'
                     ELSE 'Unknown'
                 END
-            )"),
+            )";
+        $select->columns([
+            'id',
+            'gender' => new Expression($this->genderFunction),
+            'ageGroup' => new Expression($this->ageGroupFunction),
         ]);
         $select->from(['p' => 'patients']);
         $select->join(
             ['u' => 'users'],
             'u.id = p.userId',
             [
+                'userId' => 'id',
                 'name' => new Expression($this->patientNameFunction)
             ],
             $select::JOIN_LEFT
@@ -64,8 +114,12 @@ class PatientModel
         $select = $this->findAllBySelect();
         $this->columnFilters->clear();
         $this->columnFilters->setAlias('name', $this->patientNameFunction);
+        $this->columnFilters->setAlias('gender', 'p.gender');
+        $this->columnFilters->setAlias('ageGroup', 'p.ageGroup');
         $this->columnFilters->setColumns([
             'name',
+            'gender',
+            'ageGroup',
         ]);
         $this->columnFilters->setLikeColumns(
             [
@@ -85,6 +139,19 @@ class PatientModel
                 $nest = $nest->unnest();
             }
             $nest->unnest();
+        }
+        if ($this->columnFilters->whereDataIsNotEmpty()) {
+            foreach ($this->columnFilters->getWhereData() as $column => $value) {
+                if (is_array($value)) {
+                    $nest = $select->where->nest();
+                    foreach ($value as $val) {
+                        $nest->or->equalTo(new Expression($column), $val);
+                    }
+                    $nest->unnest();
+                } else {
+                    $select->where->equalTo(new Expression($column), $value);
+                }
+            }
         }
         // orders
         // 
@@ -106,8 +173,27 @@ class PatientModel
     {
         $sql = new Sql($this->adapter);
         $select = $sql->select();
-        $select->columns(['*']);
+        $select->columns(
+            [
+                '*',
+                'userId' => new Expression("JSON_OBJECT('id', u.id, 'name', CONCAT(u.firstname, ' ', u.lastname))"),
+                'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))"),
+                'ageGroup' => new Expression("JSON_OBJECT('id', p.ageGroup, 'name', 
+                    CASE 
+                        WHEN p.ageGroup = 'infant' THEN 'Infant'
+                        WHEN p.ageGroup = 'adult' THEN 'Adult'
+                        ELSE 'Unknown'
+                    END
+                )"),
+            ]
+        );
         $select->from(['p' => 'patients']);
+        $select->join(
+            ['u' => 'users'],
+            'u.id = p.userId',
+            [],
+            $select::JOIN_LEFT
+        );
         $select->where(['p.id' => $patientId]);
 
         $statement = $sql->prepareStatementForSqlObject($select);
@@ -125,6 +211,7 @@ class PatientModel
             $this->conn->beginTransaction();
             $data['patients']['createdAt'] = date("Y-m-d H:i:s");
             $this->patients->insert($data['patients']);
+            $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
             $this->conn->rollback();
@@ -139,6 +226,7 @@ class PatientModel
             $this->conn->beginTransaction();
             $data['patients']['updatedAt'] = date("Y-m-d H:i:s");
             $this->patients->update($data['patients'], ['id' => $patientId]);
+            $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
             $this->conn->rollback();
@@ -151,11 +239,17 @@ class PatientModel
         try {
             $this->conn->beginTransaction();
             $this->patients->delete(['id' => $patientId]); 
+            $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
             $this->conn->rollback();
             throw $e;
         }
+    }
+
+    private function deleteCache() : void
+    {
+        $this->cache->removeItem(CACHE_ROOT_KEY.Self::class.':findAll');
     }
 
     public function getAdapter() : AdapterInterface

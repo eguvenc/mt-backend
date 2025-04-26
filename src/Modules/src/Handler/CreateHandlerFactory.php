@@ -7,7 +7,7 @@ namespace Modules\Handler;
 use Modules\Model\ModuleModelInterface;
 use Modules\InputFilter\SaveFilter;
 use Olobase\Mezzio\DataManagerInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
+use Common\Helper\ErrorWrapperInterface;
 use Mezzio\Authentication\AuthenticationInterface;
 use Psr\Container\ContainerInterface;
 use Laminas\Db\Adapter\AdapterInterface;

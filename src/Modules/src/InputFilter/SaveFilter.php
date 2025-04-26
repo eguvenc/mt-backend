@@ -12,30 +12,37 @@ use Laminas\Validator\StringLength;
 use Laminas\Validator\Db\RecordExists;
 use Laminas\Validator\Db\NoRecordExists;
 use Laminas\Db\Adapter\AdapterInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class SaveFilter extends InputFilter
 {
-    public function __construct(private AdapterInterface $adapter)
+    public function __construct(
+        private AdapterInterface $adapter,
+        private ServerRequestInterface $request
+    )
     {
     }
 
     public function setInputData(array $data)
     {
+        $method = $this->request->getMethod();
+
         $this->add([
             'name' => 'id',
             'required' => true,
             'validators' => [
                 ['name' => Uuid::class],
                 [
-                    'name' => RecordExists::class,
+                    'name' => $method == 'POST' ? NoRecordExists::class : RecordExists::class,
                     'options' => [
                         'table'   => 'modules',
-                        'field'   => 'moduleId',
+                        'field'   => 'id',
                         'adapter' => $this->adapter,
                     ]
                 ]
             ],
         ]);
+        
         $this->add([
             'name' => 'name',
             'required' => true,

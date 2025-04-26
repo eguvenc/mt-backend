@@ -15,7 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 class FindOneByIdHandler implements RequestHandlerInterface
 {
     public function __construct(
-        private PatientModel $PatientModel,
+        private PatientModel $patientModel,
         private DataManagerInterface $dataManager
     )
     {
@@ -42,8 +42,8 @@ class FindOneByIdHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $get = $request->getQueryParams();
-        $userId = $request->getAttribute("patientId");
-        $row = $this->patientModel->findOneById($userId, $get);
+        $patientId = $request->getAttribute("patientId");
+        $row = $this->patientModel->findOneById($patientId, $get);
         if ($row) {
             $data = $this->dataManager->getViewData(PatientsFindOneById::class, $row);
             return new JsonResponse($data); 

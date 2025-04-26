@@ -9,7 +9,6 @@ use Authentication\Model\TokenModelInterface;
 use Mezzio\Authentication\AuthenticationInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\I18n\Translator\TranslatorInterface;
 
 class RefreshHandlerFactory
 {
@@ -17,7 +16,6 @@ class RefreshHandlerFactory
     {
         return new RefreshHandler(
             $container->get('config'), 
-            $container->get(TranslatorInterface::class), 
             $container->get(AuthenticationInterface::class), 
             $container->get(TokenModelInterface::class), 
             $container->get(ErrorWrapperInterface::class)

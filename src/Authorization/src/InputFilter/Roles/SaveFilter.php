@@ -85,7 +85,7 @@ class SaveFilter extends InputFilter
         $collection = $this->filter->get(CollectionInputFilter::class);
         $inputFilter = $this->filter->get(InputFilter::class);
         $inputFilter->add([
-            'name' => 'permId',
+            'name' => 'id',
             'required' => true,
             'validators' => [
                 ['name' => Uuid::class],

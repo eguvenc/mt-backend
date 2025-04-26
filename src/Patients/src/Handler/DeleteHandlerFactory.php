@@ -6,7 +6,7 @@ namespace Patients\Handler;
 
 use Patients\Model\PatientModel;
 use Patients\InputFilter\DeleteFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
+use Common\Helper\ErrorWrapperInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\InputFilter\InputFilterPluginManager;

@@ -63,13 +63,13 @@ class ConfigProvider
                     $userAvatars = new TableGateway('userAvatars', $dbAdapter, null, new ResultSet(ResultSet::TYPE_ARRAY));
                     $userRoles = new TableGateway('userRoles', $dbAdapter, null, new ResultSet(ResultSet::TYPE_ARRAY));
                     $columnFilters = $container->get(ColumnFiltersInterface::class);
-                    $simpleCache = $container->get(SimpleCacheInterface::class);
+                    $cache = $container->get(StorageInterface::class);
                     return new Model\UserModel(
                         $users,
                         $userAvatars,
                         $userRoles,
+                        $cache,
                         $columnFilters,
-                        $simpleCache
                     );
                 },
             ],

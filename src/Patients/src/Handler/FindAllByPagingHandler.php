@@ -13,15 +13,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class FindAllByPagingHandler implements RequestHandlerInterface
 {
-    public function __construct(private PatientModel $PatientModel)
+    public function __construct(private PatientModel $patientModel)
     {
     }
     
     /**
      * @OA\Get(
-     *   path="/Patients/findAllByPaging",
+     *   path="/patients/findAllByPaging",
      *   tags={"Patients"},
-     *   summary="Find all Patients by pagination",
+     *   summary="Find all patients by pagination",
      *   operationId="patients_findAllByPaging",
      *
      *   @OA\Parameter(

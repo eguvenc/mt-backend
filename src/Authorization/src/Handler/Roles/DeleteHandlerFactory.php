@@ -6,7 +6,7 @@ namespace Authorization\Handler\Roles;
 
 use Authorization\Model\RoleModelInterface;
 use Authorization\InputFilter\Roles\DeleteFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
+use Common\Helper\ErrorWrapperInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\InputFilter\InputFilterPluginManager;

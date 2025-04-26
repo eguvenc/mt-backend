@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Authorization\Handler\Permissions;
 
 use Authorization\Model\PermissionModel;
-use Authorization\Filter\Permissions\DeleteFilter;
+use Authorization\InputFilter\Permissions\DeleteFilter;
+use Common\Helper\ErrorWrapperInterface;
 use Olobase\Mezzio\Authorization\PermissionModelInterface;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\InputFilter\InputFilterPluginManager;

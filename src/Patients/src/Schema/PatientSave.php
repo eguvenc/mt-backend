@@ -15,11 +15,11 @@ class PatientSave
      */
     public $id;
     /**
-     * @var string
-     * @OA\Property(
-     *     format="uuid"
-     * )
-     */
+    * @var object
+    * @OA\Property(
+    *     ref="#/components/schemas/ObjectId",
+    * )
+    */
     public $userId;
     /**
     * @var object

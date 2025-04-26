@@ -6,7 +6,7 @@ namespace Authorization\Handler\UserRoles;
 
 use Authorization\Model\UserRoleModelInterface;
 use Authorization\InputFilter\UserRoles\UnassignRoleFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface;
+use Common\Helper\ErrorWrapperInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\InputFilter\InputFilterPluginManager;

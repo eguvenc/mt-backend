@@ -272,6 +272,7 @@ class RoleModel implements RoleModelInterface
     public function create(array $data) : void
     {
         $roleId = $data['id'];
+        unset($data['roles']['id']);
         try {
             $this->conn->beginTransaction();
             $this->roles->insert($data['roles']);
@@ -279,6 +280,8 @@ class RoleModel implements RoleModelInterface
             if (! empty($data['rolePermissions'])) {
                 foreach ($data['rolePermissions'] as $val) {
                     $val['roleId'] = $roleId;
+                    $val['permId'] = $val['id'];
+                    unset($val['id']);
                     $this->rolePermissions->insert($val);
                 }
             }
@@ -293,13 +296,17 @@ class RoleModel implements RoleModelInterface
     public function update(array $data) : void
     {
         $roleId = $data['id'];
+        unset($data['roles']['id']);
         try {
             $this->conn->beginTransaction();
             $this->roles->update($data['roles'], ['id' => $roleId]);
             $this->rolePermissions->delete(['roleId' => $roleId]);
+
             if (! empty($data['rolePermissions'])) {
                 foreach ($data['rolePermissions'] as $val) {
                     $val['roleId'] = $roleId;
+                    $val['permId'] = $val['id'];
+                    unset($val['id']);
                     $this->rolePermissions->insert($val);
                 }
             }

@@ -28,11 +28,6 @@ class PermissionsFindAllByPagingObject
      * @var string
      * @OA\Property()
      */
-    public $resource;
-    /**
-     * @var string
-     * @OA\Property()
-     */
     public $action;
     /**
      * @var string

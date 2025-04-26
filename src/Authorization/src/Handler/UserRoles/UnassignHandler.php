@@ -6,7 +6,7 @@ namespace Authorization\Handler\UserRoles;
 
 use Authorization\Model\UserRoleModelInterface;
 use Authorization\InputFilter\UserRoles\UnassignRoleFilter;
-use Olobase\Mezzio\Error\ErrorWrapperInterface as Error;
+use Common\Helper\ErrorWrapperInterface as Error;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
