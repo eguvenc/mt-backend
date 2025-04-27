@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "272f7f60140fca7f9d971ea598039ed7",
+    "content-hash": "bd883deb61edea892587d8af6187838d",
     "packages": [
         {
             "name": "brick/math",
@@ -187,6 +187,159 @@
                 }
             ],
             "time": "2022-01-17T14:14:24+00:00"
+        },
+        {
+            "name": "doctrine/annotations",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/annotations.git",
+                "reference": "901c2ee5d26eb64ff43c47976e114bf00843acf7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/901c2ee5d26eb64ff43c47976e114bf00843acf7",
+                "reference": "901c2ee5d26eb64ff43c47976e114bf00843acf7",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/lexer": "^2 || ^3",
+                "ext-tokenizer": "*",
+                "php": "^7.2 || ^8.0",
+                "psr/cache": "^1 || ^2 || ^3"
+            },
+            "require-dev": {
+                "doctrine/cache": "^2.0",
+                "doctrine/coding-standard": "^10",
+                "phpstan/phpstan": "^1.10.28",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "symfony/cache": "^5.4 || ^6.4 || ^7",
+                "vimeo/psalm": "^4.30 || ^5.14"
+            },
+            "suggest": {
+                "php": "PHP 8.0 or higher comes with attributes, a native replacement for annotations"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Docblock Annotations Parser",
+            "homepage": "https://www.doctrine-project.org/projects/annotations.html",
+            "keywords": [
+                "annotations",
+                "docblock",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/annotations/issues",
+                "source": "https://github.com/doctrine/annotations/tree/2.0.2"
+            },
+            "time": "2024-09-05T10:17:24+00:00"
+        },
+        {
+            "name": "doctrine/lexer",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/lexer.git",
+                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/lexer/zipball/31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
+                "reference": "31ad66abc0fc9e1a1f2d9bc6a42668d2fbbcd6dd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^12",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^10.5",
+                "psalm/plugin-phpunit": "^0.18.3",
+                "vimeo/psalm": "^5.21"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Lexer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
+            "homepage": "https://www.doctrine-project.org/projects/lexer.html",
+            "keywords": [
+                "annotations",
+                "docblock",
+                "lexer",
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/lexer/issues",
+                "source": "https://github.com/doctrine/lexer/tree/3.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-02-05T11:56:58+00:00"
         },
         {
             "name": "fig/http-message-util",
@@ -2084,16 +2237,16 @@
         },
         {
             "name": "mezzio/mezzio",
-            "version": "3.20.1",
+            "version": "3.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio.git",
-                "reference": "e60bb257e91cdeb9304b02c28b8c72dcc45b38b0"
+                "reference": "1ec7e77a0532984c30d18e7278d9bbc596c6293a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio/zipball/e60bb257e91cdeb9304b02c28b8c72dcc45b38b0",
-                "reference": "e60bb257e91cdeb9304b02c28b8c72dcc45b38b0",
+                "url": "https://api.github.com/repos/mezzio/mezzio/zipball/1ec7e77a0532984c30d18e7278d9bbc596c6293a",
+                "reference": "1ec7e77a0532984c30d18e7278d9bbc596c6293a",
                 "shasum": ""
             },
             "require": {
@@ -2119,15 +2272,15 @@
                 "zendframework/zend-expressive": "*"
             },
             "require-dev": {
-                "filp/whoops": "^2.16.0",
-                "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-diactoros": "^3.4.0",
-                "laminas/laminas-servicemanager": "^3.22.1",
-                "mezzio/mezzio-fastroute": "^3.11",
-                "mezzio/mezzio-laminasrouter": "^3.9",
-                "phpunit/phpunit": "^10.5.36",
-                "psalm/plugin-phpunit": "^0.19.0",
-                "vimeo/psalm": "^5.26.1"
+                "filp/whoops": "^2.18.0",
+                "laminas/laminas-coding-standard": "^3.0.1",
+                "laminas/laminas-diactoros": "^3.5.0",
+                "laminas/laminas-servicemanager": "^3.23.0",
+                "mezzio/mezzio-fastroute": "^3.13",
+                "mezzio/mezzio-laminasrouter": "^3.11",
+                "phpunit/phpunit": "^10.5.45",
+                "psalm/plugin-phpunit": "^0.19.5",
+                "vimeo/psalm": "^6.10.1"
             },
             "suggest": {
                 "filp/whoops": "^2.1 to use the Whoops error handler",
@@ -2186,7 +2339,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-10-18T07:47:27+00:00"
+            "time": "2025-04-27T12:45:58+00:00"
         },
         {
             "name": "mezzio/mezzio-authentication",
@@ -2415,20 +2568,20 @@
         },
         {
             "name": "mezzio/mezzio-helpers",
-            "version": "5.17.0",
+            "version": "5.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-helpers.git",
-                "reference": "c4a0ca62fe2613c70091a2cd3c93b1deb97b3c31"
+                "reference": "8d76502e4d71aff178f2084eadd71d12fe737d3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-helpers/zipball/c4a0ca62fe2613c70091a2cd3c93b1deb97b3c31",
-                "reference": "c4a0ca62fe2613c70091a2cd3c93b1deb97b3c31",
+                "url": "https://api.github.com/repos/mezzio/mezzio-helpers/zipball/8d76502e4d71aff178f2084eadd71d12fe737d3c",
+                "reference": "8d76502e4d71aff178f2084eadd71d12fe737d3c",
                 "shasum": ""
             },
             "require": {
-                "mezzio/mezzio-router": "^3.0",
+                "mezzio/mezzio-router": "^3.0 || ^4.0",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
                 "psr/container": "^1.0 || ^2.0",
                 "psr/http-message": "^1.0.1 || ^2.0.0",
@@ -2436,15 +2589,17 @@
             },
             "conflict": {
                 "amphp/amp": "<2.6.4",
+                "amphp/dns": "<2.1.2",
+                "amphp/socket": "<2.3.1",
                 "zendframework/zend-expressive-helpers": "*"
             },
             "require-dev": {
                 "ext-json": "*",
-                "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-diactoros": "^3.4",
-                "phpunit/phpunit": "^10.5.36",
-                "psalm/plugin-phpunit": "^0.19.0",
-                "vimeo/psalm": "^5.26.1"
+                "laminas/laminas-coding-standard": "~3.0.1",
+                "laminas/laminas-diactoros": "^3.5",
+                "phpunit/phpunit": "^10.5.45",
+                "psalm/plugin-phpunit": "^0.19.5",
+                "vimeo/psalm": "^6.10.1"
             },
             "suggest": {
                 "ext-json": "If you wish to use the JsonStrategy with BodyParamsMiddleware"
@@ -2488,27 +2643,27 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-10-16T21:14:19+00:00"
+            "time": "2025-04-27T08:59:18+00:00"
         },
         {
             "name": "mezzio/mezzio-laminasrouter",
-            "version": "3.10.0",
+            "version": "3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-laminasrouter.git",
-                "reference": "d1b37bd243f1612bbbd1d802c008964759128f77"
+                "reference": "d0bd7431494ad0f5efc02cc060b65f815be8dee0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-laminasrouter/zipball/d1b37bd243f1612bbbd1d802c008964759128f77",
-                "reference": "d1b37bd243f1612bbbd1d802c008964759128f77",
+                "url": "https://api.github.com/repos/mezzio/mezzio-laminasrouter/zipball/d0bd7431494ad0f5efc02cc060b65f815be8dee0",
+                "reference": "d0bd7431494ad0f5efc02cc060b65f815be8dee0",
                 "shasum": ""
             },
             "require": {
                 "fig/http-message-util": "^1.1.5",
                 "laminas/laminas-psr7bridge": "^1.0.0",
                 "laminas/laminas-router": "^3.10.0",
-                "mezzio/mezzio-router": "^3.14",
+                "mezzio/mezzio-router": "^3.14 || ^4.0",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
                 "psr/http-message": "^1.0.1 || ^2.0.0"
             },
@@ -2516,7 +2671,7 @@
                 "zendframework/zend-expressive-zendrouter": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.5.0",
+                "laminas/laminas-coding-standard": "~3.0.0",
                 "laminas/laminas-diactoros": "^2.25.2 || ^3.4.0",
                 "laminas/laminas-i18n": "^2.29.0",
                 "laminas/laminas-stratigility": "^4.0.2",
@@ -2563,7 +2718,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-10-16T21:17:24+00:00"
+            "time": "2025-04-27T09:51:58+00:00"
         },
         {
             "name": "mezzio/mezzio-router",
@@ -4100,41 +4255,36 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "5.1.0",
+            "version": "4.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "a9b953c25f5bd11ea0542636936de04504496bd9"
+                "reference": "7df10e8ec47db07c031db317a25bef962b4e5de1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/a9b953c25f5bd11ea0542636936de04504496bd9",
-                "reference": "a9b953c25f5bd11ea0542636936de04504496bd9",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/7df10e8ec47db07c031db317a25bef962b4e5de1",
+                "reference": "7df10e8ec47db07c031db317a25bef962b4e5de1",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "nikic/php-parser": "^4.19 || ^5.0",
-                "php": ">=7.4",
+                "php": ">=7.2",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
                 "symfony/deprecation-contracts": "^2 || ^3",
-                "symfony/finder": "^5.0 || ^6.0 || ^7.0",
-                "symfony/yaml": "^5.0 || ^6.0 || ^7.0"
-            },
-            "conflict": {
-                "symfony/process": ">=6, <6.4.14"
+                "symfony/finder": ">=2.2",
+                "symfony/yaml": ">=3.3"
             },
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11",
-                "doctrine/annotations": "^2.0",
-                "friendsofphp/php-cs-fixer": "^3.62.0",
-                "phpstan/phpstan": "^1.6 || ^2.0",
-                "phpunit/phpunit": "^9.0",
-                "rector/rector": "^1.0 || ^2.0",
-                "vimeo/psalm": "^4.30 || ^5.0"
+                "doctrine/annotations": "^1.7 || ^2.0",
+                "friendsofphp/php-cs-fixer": "^2.17 || 3.62.0",
+                "phpstan/phpstan": "^1.6",
+                "phpunit/phpunit": ">=8",
+                "vimeo/psalm": "^4.23"
             },
             "suggest": {
-                "doctrine/annotations": "^2.0"
+                "doctrine/annotations": "^1.7 || ^2.0"
             },
             "bin": [
                 "bin/openapi"
@@ -4142,7 +4292,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.x-dev"
+                    "dev-master": "4.x-dev"
                 }
             },
             "autoload": {
@@ -4170,8 +4320,8 @@
                     "homepage": "https://radebatz.net"
                 }
             ],
-            "description": "Generate interactive documentation for your RESTful API using PHP attributes (preferred) or PHPDoc annotations",
-            "homepage": "https://github.com/zircote/swagger-php",
+            "description": "swagger-php - Generate interactive documentation for your RESTful API using phpdoc annotations",
+            "homepage": "https://github.com/zircote/swagger-php/",
             "keywords": [
                 "api",
                 "json",
@@ -4180,9 +4330,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/5.1.0"
+                "source": "https://github.com/zircote/swagger-php/tree/4.11.1"
             },
-            "time": "2025-04-18T00:35:12+00:00"
+            "time": "2024-10-15T19:20:02+00:00"
         }
     ],
     "packages-dev": [

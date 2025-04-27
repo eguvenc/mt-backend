@@ -32,6 +32,13 @@ class PatientsFindOneByIdObject
     *     ref="#/components/schemas/ObjectId",
     * )
     */
+    public $patientId;
+    /**
+    * @var object
+    * @OA\Property(
+    *     ref="#/components/schemas/ObjectId",
+    * )
+    */
     public $gender;
     /**
     * @var object

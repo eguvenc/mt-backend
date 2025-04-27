@@ -11,9 +11,9 @@ class PatientsFindAllByPaging
      * @var array
      * @OA\Property(
      *      type="array",
-     *      @OA\Items(s
+     *      @OA\Items(
      *          type="object",
-     *          ref="#/components/schemas/PatientFindAllByPagingObject",
+     *          ref="#/components/schemas/PatientsFindAllByPagingObject",
      *      ),
      * )
      */

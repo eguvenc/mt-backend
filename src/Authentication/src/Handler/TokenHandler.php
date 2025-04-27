@@ -16,19 +16,16 @@ use Common\Helper\ErrorWrapperInterface as Error;
 use Mezzio\Authentication\AuthenticationInterface;
 
 /**
- * @OA\Info(title="Example API", version="1.0"),
- * @OA\Schemes(format="http"),
+ * @OA\Info(
+ *     title="Patient Tracker API",
+ *     version="1.0"
+ * ),
  * @OA\SecurityScheme(
  *     securityScheme="bearerAuth",
  *     type="http",
  *     scheme="bearer",
- *     bearerFormat="JWT",
- * ),
- * @OA\SecurityDefinitions(
- *     name="baseUserSecurity",
- *     in="path",
- *     type="basic",
- * ),
+ *     bearerFormat="JWT"
+ * )
  */
 class TokenHandler implements RequestHandlerInterface
 {

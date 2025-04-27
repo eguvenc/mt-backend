@@ -11,7 +11,7 @@ class IntakesFindAllByPaging
      * @var array
      * @OA\Property(
      *      type="array",
-     *      @OA\Items(s
+     *      @OA\Items(
      *          type="object",
      *          ref="#/components/schemas/IntakesFindAllByPagingObject",
      *      ),

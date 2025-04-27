@@ -29,10 +29,8 @@ class IntakesFindOneByIdObject
     */
     public $medicineId;
     /**
-    * @var object
-    * @OA\Property(
-    *     ref="#/components/schemas/ObjectId",
-    * )
-    */
+     * @var string
+     * @OA\Property()
+     */
     public $intakeTime;
 }

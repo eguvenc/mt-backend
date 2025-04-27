@@ -40,9 +40,12 @@ class ConfigProvider
                 Handler\CreateHandler::class => Handler\CreateHandlerFactory::class,
                 Handler\DeleteHandler::class => Handler\DeleteHandlerFactory::class,
                 Handler\UpdateHandler::class => Handler\UpdateHandlerFactory::class,
+                Handler\FindAllByIdHandler::class => Handler\FindAllByIdHandlerFactory::class,
                 Handler\FindAllHandler::class => Handler\FindAllHandlerFactory::class,
                 Handler\FindOneByIdHandler::class => Handler\FindOneByIdHandlerFactory::class,
                 Handler\FindAllByPagingHandler::class => Handler\FindAllByPagingHandlerFactory::class,
+                Handler\MaleInfants\FindAllByPagingHandler::class => Handler\MaleInfants\FindAllByPagingHandlerFactory::class,
+                Handler\FemaleAdults\FindAllByPagingHandler::class => Handler\FemaleAdults\FindAllByPagingHandlerFactory::class,
 
                 // models
                 Model\IntakeModel::class => function ($container) {

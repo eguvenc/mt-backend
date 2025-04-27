@@ -43,13 +43,20 @@ class SaveFilter extends InputFilter
                 ]
             ],
         ]);
+
         $this->add([
-            'name' => 'name',
+            'name' => 'userId',
             'required' => true,
         ]);
+
         $this->add([
-            'name' => 'logoPath',
-            'required' => false,
+            'name' => 'gender',
+            'required' => true,
+        ]);
+
+        $this->add([
+            'name' => 'ageGroup',
+            'required' => true,
         ]);
 
         $this->setData($data);

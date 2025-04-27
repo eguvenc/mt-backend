@@ -34,6 +34,20 @@ class IntakesFindAllByPagingObject
     *     ref="#/components/schemas/ObjectId",
     * )
     */
+    public $gender;
+    /**
+    * @var object
+    * @OA\Property(
+    *     ref="#/components/schemas/ObjectId",
+    * )
+    */
+    public $ageGroup;
+    /**
+    * @var object
+    * @OA\Property(
+    *     ref="#/components/schemas/ObjectId",
+    * )
+    */
     public $intakeTime;
 
 }

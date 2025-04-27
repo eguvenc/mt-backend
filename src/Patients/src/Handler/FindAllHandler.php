@@ -20,8 +20,8 @@ class FindAllHandler implements RequestHandlerInterface
      * @OA\Get(
      *   path="/patients/findAll",
      *   tags={"Patients"},
-     *   summary="Find all patiens",
-     *   operationId="patiens_findAll",
+     *   summary="Find all patients",
+     *   operationId="patients_findAll",
      *   
      *   @OA\Response(
      *     response=200,

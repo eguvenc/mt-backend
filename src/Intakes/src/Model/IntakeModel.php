@@ -44,7 +44,8 @@ class IntakeModel
                 ]
             );
             $select->from(['i' => 'intakes']);
-
+            $select->group(['i.intakeTime']);
+            
             $statement = $sql->prepareStatementForSqlObject($select);
             $resultSet = $statement->execute();
             $results = iterator_to_array($resultSet, false);
@@ -59,6 +60,22 @@ class IntakeModel
         }
     }
 
+    public function findAllById(array $get) : Paginator
+    {
+        $patientId = $get['patientId'];
+
+        $select = $this->findAllBySelect();
+        $select->where(['i.patientId' => $patientId]);
+
+        // echo $select->getSqlString($this->adapter->getPlatform());
+        // die;
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->adapter
+        );
+        return new Paginator($paginatorAdapter);
+    }
+
     public function findAllBySelect()
     {
         $sql = new Sql($this->adapter);
@@ -66,6 +83,14 @@ class IntakeModel
 
         $select->columns([
             'id',
+            'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'male', 'Male', 'Female'))"),
+            'ageGroup' => new Expression("JSON_OBJECT('id', p.ageGroup, 'name', 
+                CASE 
+                    WHEN p.ageGroup = 'infant' THEN 'Infant'
+                    WHEN p.ageGroup = 'adult' THEN 'Adult'
+                    ELSE 'Unknown'
+                END
+            )"),
             'patientId' => new Expression("JSON_OBJECT('id', p.id, 'name', CONCAT(u.firstname, ' ', u.lastname))"),
             'medicineId' => new Expression("JSON_OBJECT('id', m.id, 'name', m.name, 'frequency', m.frequency, 'canBeUsedForInfants', m.canBeUsedForInfants)"),
             'intakeTime' => new Expression("JSON_OBJECT('id', i.intakeTime, 'name', i.intakeTime)"),
@@ -85,6 +110,8 @@ class IntakeModel
         $this->columnFilters->clear();
         $this->columnFilters->setColumns([
             'name',
+            'gender',
+            'ageGroup',
             'patientId',
             'medicineId',
             'intakeTime',
@@ -96,6 +123,8 @@ class IntakeModel
         );
         $this->columnFilters->setWhereColumns(
             [
+                'gender',
+                'ageGroup',
                 'patientId',
                 'medicineId',
                 'intakeTime',
@@ -128,6 +157,15 @@ class IntakeModel
                 }
             }
         }
+
+        if (! empty($get['maleInfants'])) {
+            $select->where->equalTo(new Expression('gender'), 'male');
+        }
+
+        if (! empty($get['femaleAdults'])) {
+            $select->where->equalTo(new Expression('gender'), 'female');
+        }
+
         // orders
         // 
         if ($this->columnFilters->orderDataIsNotEmpty()) {
@@ -154,13 +192,13 @@ class IntakeModel
                 'id',
                 'patientId' => new Expression("JSON_OBJECT('id', p.id, 'name', CONCAT(u.firstname, ' ', u.lastname))"),
                 'medicineId' => new Expression("JSON_OBJECT('id', m.id, 'name', m.name, 'frequency', m.frequency, 'canBeUsedForInfants', m.canBeUsedForInfants)"),
-                'intakeTime' => new Expression("JSON_OBJECT('id', i.intakeTime, 'name', i.intakeTime)"),
+                'intakeTime',
             ]
         );
         $select->from(['i' => 'intakes']);
         $select->join(['m' => 'medicines'], 'm.id = i.medicineId', [], $select::JOIN_LEFT);
-        $select->join(['p' => 'patients'], 'u.id = p.userId', [], $select::JOIN_LEFT);
-        $select->join(['u' => 'users'], 'u.id = p.userId', [], $select::JOIN_LEFT);
+        $select->join(['p' => 'patients'], 'p.id = i.patientId', [], $select::JOIN_LEFT); // doğru bağlama
+        $select->join(['u' => 'users'], 'u.id = p.userId', [], $select::JOIN_LEFT); // sonra users
         $select->where(['i.id' => $intakeId]);
 
         $statement = $sql->prepareStatementForSqlObject($select);

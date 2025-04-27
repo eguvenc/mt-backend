@@ -39,7 +39,7 @@ class UpdatePasswordHandler implements RequestHandlerInterface
      *   ),
      *   @OA\RequestBody(
      *     description="Update user",
-     *     @OA\JsonContent(ref="#/components/schemas/PasswordSave"),
+     *     @OA\JsonContent(ref="#/components/schemas/UserPasswordSave"),
      *   ),
      *   @OA\Response(
      *     response=200,

@@ -61,8 +61,8 @@ class UpdateHandler implements RequestHandlerInterface
         $response = array();
         if ($this->filter->isValid()) {
             $this->dataManager->setInputFilter($this->filter);
-            $data = $this->dataManager->getSaveData(PatientSave::class, 'Patients');
-            $this->PatientModel->update($data);
+            $data = $this->dataManager->getSaveData(PatientSave::class, 'patients');
+            $this->patientModel->update($data);
         } else {
             return new JsonResponse($this->error->getMessages($this->filter), 400);
         }

@@ -22,6 +22,7 @@ class PatientModel
     private $genderFunction;
     private $ageGroupFunction;
     private $patientNameFunction;
+    private $intakesFunction;
 
     public function __construct(
         private TableGatewayInterface $patients,
@@ -45,7 +46,7 @@ class PatientModel
             
             $select->columns([
                 'id',
-                'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))"),
+                'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'male', 'Male', 'Female'))"),
                 'ageGroup' => new Expression("JSON_OBJECT('id', p.ageGroup, 'name', 
                     CASE 
                         WHEN p.ageGroup = 'infant' THEN 'Infant'
@@ -85,18 +86,38 @@ class PatientModel
         $sql = new Sql($this->adapter);
         $select = $sql->select();
 
-        $this->genderFunction = "JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))";
+        $this->genderFunction = "JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'male', 'Male', 'Female'))";
         $this->ageGroupFunction = "JSON_OBJECT('id', p.ageGroup, 'name', 
-                CASE 
-                    WHEN p.ageGroup = 'infant' THEN 'Infant'
-                    WHEN p.ageGroup = 'adult' THEN 'Adult'
-                    ELSE 'Unknown'
-                END
-            )";
+            CASE 
+                WHEN p.ageGroup = 'infant' THEN 'Infant'
+                WHEN p.ageGroup = 'adult' THEN 'Adult'
+                ELSE 'Unknown'
+            END
+        )";
+        $this->intakesFunction = "
+            (
+                SELECT JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id', i.id,
+                        'intakeTime', i.intakeTime,
+                        'medicine', JSON_OBJECT(
+                            'id', m.id,
+                            'name', m.name,
+                            'frequency', m.frequency,
+                            'canBeUsedForInfants', m.canBeUsedForInfants
+                        )
+                    )
+                )
+                FROM intakes i
+                LEFT JOIN medicines m ON m.id = i.medicineId
+                WHERE i.patientId = p.id
+            )
+        ";
         $select->columns([
             'id',
             'gender' => new Expression($this->genderFunction),
             'ageGroup' => new Expression($this->ageGroupFunction),
+            'intakes' => new Expression($this->intakesFunction),
         ]);
         $select->from(['p' => 'patients']);
         $select->join(
@@ -104,10 +125,11 @@ class PatientModel
             'u.id = p.userId',
             [
                 'userId' => 'id',
-                'name' => new Expression($this->patientNameFunction)
+                'name' => new Expression("CONCAT(u.firstname, ' ', u.lastname)")
             ],
             $select::JOIN_LEFT
         );
+
         return $select;
     }
 
@@ -178,8 +200,9 @@ class PatientModel
         $select->columns(
             [
                 '*',
+                'patientId' => new Expression("JSON_OBJECT('id', p.id, 'name', CONCAT(u.firstname, ' ', u.lastname))"),
                 'userId' => new Expression("JSON_OBJECT('id', u.id, 'name', CONCAT(u.firstname, ' ', u.lastname))"),
-                'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))"),
+                'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'male', 'Male', 'Female'))"),
                 'ageGroup' => new Expression("JSON_OBJECT('id', p.ageGroup, 'name', 
                     CASE 
                         WHEN p.ageGroup = 'infant' THEN 'Infant'
@@ -193,7 +216,9 @@ class PatientModel
         $select->join(
             ['u' => 'users'],
             'u.id = p.userId',
-            [],
+            [
+                'name' => new Expression("CONCAT(u.firstname, ' ', u.lastname)"),
+            ],
             $select::JOIN_LEFT
         );
         $select->where(['p.id' => $patientId]);
@@ -211,7 +236,6 @@ class PatientModel
         unset($data['patients']['id']);
         try {
             $this->conn->beginTransaction();
-            $data['patients']['createdAt'] = date("Y-m-d H:i:s");
             $this->patients->insert($data['patients']);
             $this->deleteCache();
             $this->conn->commit();
@@ -224,9 +248,9 @@ class PatientModel
     public function update(array $data) : void
     {
         $patientId = $data['id'];
+        unset($data['patients']['id']);
         try {
             $this->conn->beginTransaction();
-            $data['patients']['updatedAt'] = date("Y-m-d H:i:s");
             $this->patients->update($data['patients'], ['id' => $patientId]);
             $this->deleteCache();
             $this->conn->commit();
