@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Medicines\Model;
+namespace Intakes\Model;
 
 use Exception;
 use Olobase\Mezzio\ColumnFiltersInterface;
@@ -13,18 +13,18 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\TableGateway\TableGatewayInterface;
 use Laminas\Cache\Storage\StorageInterface;
 
-class MedicineModel
+class IntakeModel
 {
     private $conn;
     private $adapter;
     private $frequencyFunction;
 
     public function __construct(
-        private TableGatewayInterface $medicines,
+        private TableGatewayInterface $intakes,
         private StorageInterface $cache,
         private ColumnFiltersInterface $columnFilters
     ) {
-        $this->adapter = $medicines->getAdapter();
+        $this->adapter = $intakes->getAdapter();
         $this->conn = $this->adapter->getDriver()->getConnection();
     }
 
@@ -39,11 +39,11 @@ class MedicineModel
             $select = $sql->select();
             $select->columns(
                 [
-                    'id',
-                    'name',
+                    'id' => 'intakeTime',
+                    'name' => 'intakeTime',
                 ]
             );
-            $select->from(['m' => 'medicines']);
+            $select->from(['i' => 'intakes']);
 
             $statement = $sql->prepareStatementForSqlObject($select);
             $resultSet = $statement->execute();
@@ -64,23 +64,18 @@ class MedicineModel
         $sql = new Sql($this->adapter);
         $select = $sql->select();
 
-        $this->frequencyFunction = "JSON_OBJECT('id', m.frequency, 'name', 
-            CASE 
-                WHEN m.frequency = 'once' THEN 'Once a Day'
-                WHEN m.frequency = 'twice' THEN 'Twice a Day'
-                WHEN m.frequency = 'threeTimes' THEN 'Three Times a Day'
-                ELSE 'Unknown'
-            END
-        )";
-        $select->columns(
-            [
-                'id',
-                'name',
-                'frequency' => new Expression($this->frequencyFunction),
-                'canBeUsedForInfants',
-            ]
-        );
-        $select->from(['m' => 'medicines']);
+        $select->columns([
+            'id',
+            'patientId' => new Expression("JSON_OBJECT('id', p.id, 'name', CONCAT(u.firstname, ' ', u.lastname))"),
+            'medicineId' => new Expression("JSON_OBJECT('id', m.id, 'name', m.name, 'frequency', m.frequency, 'canBeUsedForInfants', m.canBeUsedForInfants)"),
+            'intakeTime' => new Expression("JSON_OBJECT('id', i.intakeTime, 'name', i.intakeTime)"),
+        ]);
+
+        $select->from(['i' => 'intakes']);
+        $select->join(['m' => 'medicines'], 'm.id = i.medicineId', [], $select::JOIN_LEFT);
+        $select->join(['p' => 'patients'], 'p.id = i.patientId', [], $select::JOIN_LEFT);
+        $select->join(['u' => 'users'], 'u.id = p.userId', [], $select::JOIN_LEFT);
+
         return $select;
     }
 
@@ -90,8 +85,9 @@ class MedicineModel
         $this->columnFilters->clear();
         $this->columnFilters->setColumns([
             'name',
-            'frequency',
-            'canBeUsedForInfants',
+            'patientId',
+            'medicineId',
+            'intakeTime',
         ]);
         $this->columnFilters->setLikeColumns(
             [
@@ -100,8 +96,9 @@ class MedicineModel
         );
         $this->columnFilters->setWhereColumns(
             [
-                'frequency',
-                'canBeUsedForInfants',
+                'patientId',
+                'medicineId',
+                'intakeTime',
             ]
         );
         $this->columnFilters->setSelect($select);
@@ -147,27 +144,24 @@ class MedicineModel
         return new Paginator($paginatorAdapter);
     }
 
-    public function findOneById(string $medicineId)
+    public function findOneById(string $intakeId)
     {
-        $frequencyFunction = "JSON_OBJECT('id', m.frequency, 'name', 
-            CASE 
-                WHEN m.frequency = 'once' THEN 'Once a Day'
-                WHEN m.frequency = 'twice' THEN 'Twice a Day'
-                WHEN m.frequency = 'threeTimes' THEN 'Three Times a Day'
-                ELSE 'Unknown'
-            END
-        )";
-
         $sql = new Sql($this->adapter);
         $select = $sql->select();
+
         $select->columns(
             [
-                '*',
-                'frequency' => new Expression($frequencyFunction),
+                'id',
+                'patientId' => new Expression("JSON_OBJECT('id', p.id, 'name', CONCAT(u.firstname, ' ', u.lastname))"),
+                'medicineId' => new Expression("JSON_OBJECT('id', m.id, 'name', m.name, 'frequency', m.frequency, 'canBeUsedForInfants', m.canBeUsedForInfants)"),
+                'intakeTime' => new Expression("JSON_OBJECT('id', i.intakeTime, 'name', i.intakeTime)"),
             ]
         );
-        $select->from(['m' => 'medicines']);
-        $select->where(['m.id' => $medicineId]);
+        $select->from(['i' => 'intakes']);
+        $select->join(['m' => 'medicines'], 'm.id = i.medicineId', [], $select::JOIN_LEFT);
+        $select->join(['p' => 'patients'], 'u.id = p.userId', [], $select::JOIN_LEFT);
+        $select->join(['u' => 'users'], 'u.id = p.userId', [], $select::JOIN_LEFT);
+        $select->where(['i.id' => $intakeId]);
 
         $statement = $sql->prepareStatementForSqlObject($select);
         $resultSet = $statement->execute();
@@ -179,10 +173,10 @@ class MedicineModel
 
     public function create(array $data) : void
     {
-        unset($data['medicines']['id']);
+        unset($data['intakes']['id']);
         try {
             $this->conn->beginTransaction();
-            $this->medicines->insert($data['medicines']);
+            $this->intakes->insert($data['intakes']);
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
@@ -193,10 +187,10 @@ class MedicineModel
 
     public function update(array $data) : void
     {
-        $medicineId = $data['id'];
+        $intakeId = $data['id'];
         try {
             $this->conn->beginTransaction();
-            $this->medicines->update($data['medicines'], ['id' => $medicineId]);
+            $this->intakes->update($data['intakes'], ['id' => $intakeId]);
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {
@@ -205,11 +199,11 @@ class MedicineModel
         }
     }
 
-    public function delete(string $medicineId) : void
+    public function delete(string $intakeId) : void
     {
         try {
             $this->conn->beginTransaction();
-            $this->medicines->delete(['id' => $medicineId]); 
+            $this->intakes->delete(['id' => $intakeId]); 
             $this->deleteCache();
             $this->conn->commit();
         } catch (Exception $e) {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Medicines\InputFilter;
+namespace Intakes\InputFilter;
 
 use Common\InputFilter\InputFilter;
 use Laminas\Filter\StringTrim;
@@ -36,7 +36,7 @@ class SaveFilter extends InputFilter
                 [
                     'name' => $method == 'POST' ? NoRecordExists::class : RecordExists::class,
                     'options' => [
-                        'table'   => 'medicines',
+                        'table'   => 'intakes',
                         'field'   => 'id',
                         'adapter' => $this->adapter,
                     ]
@@ -44,16 +44,16 @@ class SaveFilter extends InputFilter
             ],
         ]);
         $this->add([
-            'name' => 'name',
+            'name' => 'patientId',
             'required' => true,
         ]);
         $this->add([
-            'name' => 'frequency',
+            'name' => 'medicineId',
             'required' => true,
         ]);
         $this->add([
-            'name' => 'canBeUsedForInfants',
-            'required' => false,
+            'name' => 'intakeTime',
+            'required' => true,
         ]);
 
         $this->setData($data);

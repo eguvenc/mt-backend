@@ -6,5 +6,6 @@ return [
     'Patients',
     'Modules',
     'Users',
-    'Medicines'
+    'Medicines',
+    'Intakes'
 ];

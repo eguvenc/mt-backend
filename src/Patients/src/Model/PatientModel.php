@@ -44,6 +44,7 @@ class PatientModel
             $select = $sql->select();
             
             $select->columns([
+                'id',
                 'gender' => new Expression("JSON_OBJECT('id', p.gender, 'name', IF(p.gender = 'M', 'Male', 'Female'))"),
                 'ageGroup' => new Expression("JSON_OBJECT('id', p.ageGroup, 'name', 
                     CASE 
@@ -58,11 +59,13 @@ class PatientModel
                 ['u' => 'users'],
                 'u.id = p.userId',
                 [
-                    'id' => 'userId',
                     'name' => new Expression($this->patientNameFunction)
                 ],
                 $select::JOIN_LEFT
             );
+
+            // echo $select->getSqlString($this->adapter->getPlatform());
+            // die;
 
             $statement = $sql->prepareStatementForSqlObject($select);
             $resultSet = $statement->execute();
@@ -71,7 +74,6 @@ class PatientModel
             if (!empty($results)) {
                 $this->cache->setItem($key, $results);
             }
-
             return $results;
         } catch (\Throwable $e) {
             return [];

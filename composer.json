@@ -113,6 +113,13 @@
             "options": {
                 "symlink": true
             }
+        },
+        {
+            "type": "path",
+            "url": "./src/Intakes",
+            "options": {
+                "symlink": true
+            }
         }
     ],
     "autoload": {
@@ -123,7 +130,8 @@
             "Patients\\": "src/Patients/src/",
             "Modules\\": "src/Modules/src/",
             "Users\\": "src/Users/src/",
-            "Medicines\\": "src/Medicines/src/"
+            "Medicines\\": "src/Medicines/src/",
+            "Intakes\\": "src/Intakes/src/"
         }
     },
     "autoload-dev": {
