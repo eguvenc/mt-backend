@@ -8,6 +8,14 @@ use Common\InputFilter\InputFilter;
 use Laminas\Filter\StringTrim;
 use Laminas\Validator\EmailAddress;
 
+/**
+ * @OA\Schema(
+ *   schema="TokenRequest",
+ *   required={"username", "password"},
+ *   @OA\Property(property="username", type="string", format="email"),
+ *   @OA\Property(property="password", type="string")
+ * )
+ */
 class TokenFilter extends InputFilter
 {
     public function setInputData(array $data)

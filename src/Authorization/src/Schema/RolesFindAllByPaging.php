@@ -1,11 +1,11 @@
 <?php
 
-namespace Authorization\Schema\UserRoles;
+namespace Authorization\Schema;
 
 /**
  * @OA\Schema()
  */
-class UserRolesFindAllByPaging
+class RolesFindAllByPaging
 {
     /**
      * @var array
@@ -13,7 +13,7 @@ class UserRolesFindAllByPaging
      *      type="array",
      *      @OA\Items(
      *          type="object",
-     *          ref="#/components/schemas/UserRolesFindAllByPagingObject",
+     *          ref="#/components/schemas/RolesFindAllByPagingObject",
      *      ),
      * )
      */

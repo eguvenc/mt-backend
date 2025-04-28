@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Laminas\InputFilter\InputFilterPluginManager;
 
 class SaveFilterFactory implements FactoryInterface
 {
@@ -15,6 +16,7 @@ class SaveFilterFactory implements FactoryInterface
     {
         return new SaveFilter(
             $container->get(AdapterInterface::class),
+            $container->get(InputFilterPluginManager::class),
             $container->get(ServerRequestInterface::class)()
         );
     }

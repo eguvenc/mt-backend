@@ -1,11 +1,11 @@
 <?php
 
-namespace Authorization\Schema\Permissions;
+namespace Authorization\Schema;
 
 /**
  * @OA\Schema()
  */
-class PermissionSave
+class PermissionsFindAllByPagingObject
 {
     /**
      * @var string
@@ -25,12 +25,9 @@ class PermissionSave
      */
     public $name;
     /**
-    * @var object
-    * @OA\Property(
-    *     ref="#/components/schemas/ObjectId",
-    *     format="string",
-    * )
-    */
+     * @var string
+     * @OA\Property()
+     */
     public $action;
     /**
      * @var string
@@ -38,11 +35,8 @@ class PermissionSave
      */
     public $route;
     /**
-    * @var object
-    * @OA\Property(
-    *     ref="#/components/schemas/ObjectId",
-    *     format="string",
-    * )
-    */
+     * @var string
+     * @OA\Property()
+     */
     public $method;
 }

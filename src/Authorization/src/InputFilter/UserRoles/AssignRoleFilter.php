@@ -10,6 +10,15 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\InputFilter\InputFilterPluginManager;
 use Authorization\Validator\Db\NoUserAndRoleRecordExists;
 
+/**
+ * @OA\Schema(
+ *     schema="UserRoleAssignment",
+ *     type="object",
+ *     required={"userId", "roleId"},
+ *     @OA\Property(property="userId", type="string", format="uuid"),
+ *     @OA\Property(property="roleId", type="string", format="uuid")
+ * )
+ */
 class AssignRoleFilter extends InputFilter
 {
     public function __construct(

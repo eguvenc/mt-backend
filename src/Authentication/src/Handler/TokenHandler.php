@@ -44,25 +44,40 @@ class TokenHandler implements RequestHandlerInterface
     /**
      * @OA\Post(
      *   path="/auth/token",
-     *   tags={"Auth"},
+     *   tags={"Authentication"},
      *   summary="Authenticate the user",
      *   operationId="auth_token",
      *
-     *   @OA\RequestBody(
-     *     description="Authenticate",
-     *     @OA\JsonContent(ref="#/components/schemas/AuthRequest"),
-     *   ),
      *   @OA\Response(
      *     response=200,
      *     description="Successful operation",
-     *     @OA\JsonContent(ref="#/components/schemas/AuthResult"),
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(property="token", type="string"),
+     *       @OA\Property(
+     *         property="user",
+     *         type="object",
+     *         ref="#/components/schemas/UserObject"
+     *       ),
+     *       @OA\Property(
+     *         property="avatar",
+     *         type="object",
+     *         ref="#/components/schemas/AvatarObject"
+     *       ),
+     *       @OA\Property(
+     *         property="expiresAt",
+     *         type="string",
+     *         format="date-time",
+     *         description="Expiration date of token"
+     *       )
+     *     )
      *   ),
      *   @OA\Response(
-     *      response=400,
-     *      description="Bad request, returns to validation errors"
+     *     response=400,
+     *     description="Bad request, returns to validation errors"
      *   )
-     *)
-     **/
+     * )
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $this->filter->setInputData($request->getParsedBody());

@@ -31,7 +31,7 @@ class CreateHandler implements RequestHandlerInterface
      *   tags={"Authorization Permissions"},
      *   summary="Create a new permission",
      *   operationId="authorizationPermissions_create",
-     *
+     *   
      *   @OA\RequestBody(
      *     description="Create a new permission",
      *     @OA\JsonContent(ref="#/components/schemas/PermissionSave"),

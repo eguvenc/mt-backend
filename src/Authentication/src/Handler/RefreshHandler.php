@@ -40,19 +40,42 @@ class RefreshHandler implements RequestHandlerInterface
      *
      *   @OA\RequestBody(
      *     description="Token refresh request",
-     *     @OA\JsonContent(ref="#/components/schemas/RefreshToken"),
+     *     @OA\JsonContent(
+     *       type="object",
+     *       required={"token"},
+     *       @OA\Property(property="token", type="string")
+     *     )
      *   ),
      *   @OA\Response(
      *     response=200,
      *     description="Successful operation",
-     *     @OA\JsonContent(ref="#/components/schemas/AuthResult"),
+     *     @OA\JsonContent(
+     *       type="object",
+     *       @OA\Property(property="token", type="string"),
+     *       @OA\Property(
+     *         property="user",
+     *         type="object",
+     *         ref="#/components/schemas/UserObject"
+     *       ),
+     *       @OA\Property(
+     *         property="avatar",
+     *         type="object",
+     *         ref="#/components/schemas/AvatarObject"
+     *       ),
+     *       @OA\Property(
+     *         property="expiresAt",
+     *         type="string",
+     *         format="date-time",
+     *         description="Expiration date of token"
+     *       )
+     *     )
      *   ),
      *   @OA\Response(
      *      response=401,
      *      description="Unauthorized Response: token is expired"
      *   )
      * )
-     **/
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $post = $request->getParsedBody();

@@ -28,7 +28,7 @@ class SessionUpdateHandler implements RequestHandlerInterface
      * @OA\Get(
      *   path="/auth/session",
      *   tags={"Authentication"},
-     *   summary="Updaate session with aixos requests",
+     *   summary="Update session with http requests",
      *   operationId="auth_session",
      *   
      *   @OA\Response(

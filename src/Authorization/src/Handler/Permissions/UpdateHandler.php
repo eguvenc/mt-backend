@@ -31,9 +31,9 @@ class UpdateHandler implements RequestHandlerInterface
      *   tags={"Authorization Permissions"},
      *   summary="Update a permission",
      *   operationId="authorizationPermissions_update",
-     *
+     *   
      *   @OA\RequestBody(
-     *     description="Update a permission",
+     *     description="Create a new permission",
      *     @OA\JsonContent(ref="#/components/schemas/PermissionSave"),
      *   ),
      *   @OA\Response(

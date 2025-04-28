@@ -31,7 +31,15 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/RefreshToken"
+                                "required": [
+                                    "token"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
@@ -42,7 +50,23 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResult"
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/UserObject"
+                                        },
+                                        "avatar": {
+                                            "$ref": "#/components/schemas/AvatarObject"
+                                        },
+                                        "expiresAt": {
+                                            "description": "Expiration date of token",
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -58,7 +82,7 @@
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Updaate session with aixos requests",
+                "summary": "Update session with http requests",
                 "operationId": "auth_session",
                 "responses": {
                     "200": {
@@ -70,27 +94,33 @@
         "/auth/token": {
             "post": {
                 "tags": [
-                    "Auth"
+                    "Authentication"
                 ],
                 "summary": "Authenticate the user",
                 "operationId": "auth_token",
-                "requestBody": {
-                    "description": "Authenticate",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/AuthRequest"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthResult"
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/UserObject"
+                                        },
+                                        "avatar": {
+                                            "$ref": "#/components/schemas/AvatarObject"
+                                        },
+                                        "expiresAt": {
+                                            "description": "Expiration date of token",
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -248,7 +278,7 @@
                 "summary": "Update a permission",
                 "operationId": "authorizationPermissions_update",
                 "requestBody": {
-                    "description": "Update a permission",
+                    "description": "Create a new permission",
                     "content": {
                         "application/json": {
                             "schema": {
@@ -1864,10 +1894,15 @@
     },
     "components": {
         "schemas": {
-            "AuthRequest": {
+            "TokenRequest": {
+                "required": [
+                    "username",
+                    "password"
+                ],
                 "properties": {
                     "username": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "email"
                     },
                     "password": {
                         "type": "string"
@@ -1875,76 +1910,126 @@
                 },
                 "type": "object"
             },
-            "AuthResult": {
-                "properties": {
-                    "token": {
-                        "type": "string"
-                    },
-                    "user": {
-                        "$ref": "#/components/schemas/UserObject"
-                    },
-                    "avatar": {
-                        "$ref": "#/components/schemas/AvatarObject"
-                    },
-                    "expiresAt": {
-                        "description": "Expiration date of token",
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "type": "object"
-            },
-            "RefreshToken": {
-                "properties": {
-                    "token": {
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "UserObject": {
-                "properties": {
-                    "id": {
-                        "type": "string"
-                    },
-                    "firstname": {
-                        "type": "string"
-                    },
-                    "lastname": {
-                        "type": "string"
-                    },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "email": {
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
             "PermissionSave": {
+                "required": [
+                    "id",
+                    "module",
+                    "name",
+                    "action",
+                    "route",
+                    "method"
+                ],
                 "properties": {
                     "id": {
                         "type": "string",
                         "format": "uuid"
                     },
                     "module": {
-                        "type": "string"
+                        "type": "string",
+                        "maxLength": 60,
+                        "minLength": 3
                     },
                     "name": {
-                        "type": "string"
+                        "type": "string",
+                        "maxLength": 60,
+                        "minLength": 3
                     },
                     "action": {
-                        "$ref": "#/components/schemas/ObjectId"
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "enum": [
+                                    "create",
+                                    "delete",
+                                    "edit",
+                                    "list",
+                                    "show"
+                                ]
+                            }
+                        },
+                        "type": "object"
                     },
                     "route": {
-                        "type": "string"
+                        "type": "string",
+                        "maxLength": 255,
+                        "minLength": 2
                     },
                     "method": {
-                        "$ref": "#/components/schemas/ObjectId"
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "enum": [
+                                    "POST",
+                                    "GET",
+                                    "PUT",
+                                    "DELETE",
+                                    "PATCH"
+                                ]
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "RoleSave": {
+                "required": [
+                    "id",
+                    "key",
+                    "name",
+                    "level",
+                    "rolePermissions"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "key": {
+                        "type": "string",
+                        "maxLength": 60,
+                        "minLength": 2
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 2
+                    },
+                    "level": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "rolePermissions": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "id"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UserRoleAssignment": {
+                "required": [
+                    "userId",
+                    "roleId"
+                ],
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "roleId": {
+                        "type": "string",
+                        "format": "uuid"
                     }
                 },
                 "type": "object"
@@ -2023,35 +2108,6 @@
                     },
                     "method": {
                         "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "RoleSave": {
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "key": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "level": {
-                        "type": "number"
-                    },
-                    "rolePermissions": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "permId": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 },
                 "type": "object"
@@ -2169,19 +2225,6 @@
                 },
                 "type": "object"
             },
-            "UserRoleAssignment": {
-                "properties": {
-                    "userId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "roleId": {
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                },
-                "type": "object"
-            },
             "UserRolesFindAllByPaging": {
                 "properties": {
                     "data": {
@@ -2257,6 +2300,29 @@
                         "format": "uuid"
                     },
                     "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserObject": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "email": {
                         "type": "string"
                     }
                 },
@@ -2980,10 +3046,6 @@
         {
             "name": "Authentication",
             "description": "Authentication"
-        },
-        {
-            "name": "Auth",
-            "description": "Auth"
         },
         {
             "name": "Authorization Permissions",

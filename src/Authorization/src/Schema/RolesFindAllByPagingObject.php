@@ -1,11 +1,11 @@
 <?php
 
-namespace Authorization\Schema\UserRoles;
+namespace Authorization\Schema;
 
 /**
  * @OA\Schema()
  */
-class UserRolesFindAllByPagingObject
+class RolesFindAllByPagingObject
 {
     /**
      * @var string
@@ -18,15 +18,15 @@ class UserRolesFindAllByPagingObject
      * @var string
      * @OA\Property()
      */
-    public $firstname;
+    public $key;
     /**
      * @var string
      * @OA\Property()
      */
-    public $lastname;
+    public $name;
     /**
      * @var string
      * @OA\Property()
      */
-    public $email;
+    public $level;
 }

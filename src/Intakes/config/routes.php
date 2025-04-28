@@ -25,5 +25,4 @@ return function (Application $app, ContainerInterface $container) {
     $app->route('/api/intakes/femaleAdults/findAllByPaging', [...$auth, ...[Intakes\Handler\FemaleAdults\FindAllByPagingHandler::class]], ['GET']);
     $app->route('/api/intakes/maleInfants/findAllByPaging', [...$auth, ...[Intakes\Handler\MaleInfants\FindAllByPagingHandler::class]], ['GET']);
 
-
 };

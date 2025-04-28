@@ -31,7 +31,7 @@ class CopyHandler implements RequestHandlerInterface
      *   tags={"Authorization Permissions"},
      *   summary="Copy a permission",
      *   operationId="authorizationPermissions_copy",
-     *
+     *   
      *   @OA\RequestBody(
      *     description="Create a new permission",
      *     @OA\JsonContent(ref="#/components/schemas/PermissionSave"),

@@ -1,6 +1,6 @@
 <?php
 
-namespace Authorization\Schema\Roles;
+namespace Authorization\Schema;
 
 /**
  * @OA\Schema()
