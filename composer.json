@@ -141,7 +141,7 @@
         }
     },
     "scripts": {
-        "swagger" : "vendor/bin/openapi $PWD -e vendor -o public/swagger/web/swagger.json",
+        "swagger" : "vendor/bin/openapi $PWD -e vendor -o public/swagger.json",
         "post-create-project-cmd": [
             "@development-enable"
         ],

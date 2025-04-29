@@ -16,53 +16,6 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\InputFilter\InputFilterPluginManager;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * @OA\Schema(
- *     schema="PermissionSave",
- *     required={"id", "module", "name", "action", "route", "method"},
- *     @OA\Property(
- *         property="id",
- *         type="string",
- *         format="uuid"
- *     ),
- *     @OA\Property(
- *         property="module",
- *         type="string",
- *         minLength=3,
- *         maxLength=60
- *     ),
- *     @OA\Property(
- *         property="name",
- *         type="string",
- *         minLength=3,
- *         maxLength=60
- *     ),
- *     @OA\Property(
- *         property="action",
- *         type="object",
- *         @OA\Property(
- *             property="id",
- *             type="string",
- *             enum={"create", "delete", "edit", "list", "show"}
- *         )
- *     ),
- *     @OA\Property(
- *         property="route",
- *         type="string",
- *         minLength=2,
- *         maxLength=255
- *     ),
- *     @OA\Property(
- *         property="method",
- *         type="object",
- *         @OA\Property(
- *             property="id",
- *             type="string",
- *             enum={"POST", "GET", "PUT", "DELETE", "PATCH"}
- *         )
- *     )
- * )
- */
 class SaveFilter extends InputFilter
 {
     public function __construct(

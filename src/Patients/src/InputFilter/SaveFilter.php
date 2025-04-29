@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Patients\InputFilter;
 
 use Common\InputFilter\InputFilter;
-use Laminas\Filter\StringTrim;
+use Common\InputFilter\ObjectInputFilter;
 use Laminas\Validator\Uuid;
+use Laminas\Validator\InArray;
 use Laminas\Validator\Db\RecordExists;
 use Laminas\Validator\Db\NoRecordExists;
 use Laminas\Db\Adapter\AdapterInterface;
@@ -18,6 +19,7 @@ class SaveFilter extends InputFilter
 {
     public function __construct(
         private AdapterInterface $adapter,
+        private InputFilterPluginManager $filter,
         private ServerRequestInterface $request
     )
     {
@@ -44,20 +46,56 @@ class SaveFilter extends InputFilter
             ],
         ]);
 
-        $this->add([
-            'name' => 'userId',
+        $objectFilter = $this->filter->get(ObjectInputFilter::class);
+        $objectFilter->add([
+            'name' => 'id',
             'required' => true,
+            'validators' => [
+                ['name' => Uuid::class],
+                [
+                    'name' => RecordExists::class,
+                    'options' => [
+                        'table'   => 'users',
+                        'field'   => 'id',
+                        'adapter' => $this->adapter,
+                    ]
+                ]
+            ]
         ]);
+        $this->add($objectFilter, 'userId');
 
-        $this->add([
-            'name' => 'gender',
+        $objectFilter = $this->filter->get(ObjectInputFilter::class);
+        $objectFilter->add([
+            'name' => 'id',
             'required' => true,
+            'validators' => [
+                [
+                    'name' => InArray::class,
+                    'options' => [
+                        'haystack' => ['male', 'female'],
+                        'strict' => true,
+                    ],
+                ],
+            ]
         ]);
+        $this->add($objectFilter, 'gender');
 
-        $this->add([
-            'name' => 'ageGroup',
+        $objectFilter = $this->filter->get(ObjectInputFilter::class);
+        $objectFilter->add([
+            'name' => 'id',
             'required' => true,
+            'validators' => [
+                [
+                    'name' => InArray::class,
+                    'options' => [
+                        'haystack' => ['infant', 'adult'],
+                        'strict' => true,
+                    ],
+                ],
+            ]
         ]);
+        $this->add($objectFilter, 'ageGroup');
+
 
         $this->setData($data);
     }

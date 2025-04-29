@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Authorization\Handler\Permissions;
 
-use Authorization\Schema\Permissions\PermissionSave;
+use Authorization\Schema\PermissionSave;
 use Authorization\Filter\Permissions\SaveFilter;
 use Olobase\Mezzio\Authorization\PermissionModelInterface;
 use Olobase\Mezzio\DataManagerInterface;

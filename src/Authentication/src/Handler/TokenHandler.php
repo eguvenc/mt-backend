@@ -17,7 +17,7 @@ use Mezzio\Authentication\AuthenticationInterface;
 
 /**
  * @OA\Info(
- *     title="Patient Tracker API",
+ *     title="Patient Medicine Tracker (PMM) API",
  *     version="1.0"
  * ),
  * @OA\SecurityScheme(

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Authorization\Handler\UserRoles;
 
 use Authorization\Model\UserRoleModelInterface;
-use Authorization\Schema\UserRoles\UserRoleAssignment;
+use Authorization\Schema\UserRoleAssignment;
 use Authorization\InputFilter\UserRoles\AssignRoleFilter;
 use Olobase\Mezzio\DataManagerInterface;
 use Common\Helper\ErrorWrapperInterface as Error;

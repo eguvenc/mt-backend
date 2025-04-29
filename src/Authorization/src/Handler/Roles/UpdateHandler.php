@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Authorization\Handler\Roles;
 
 use Authorization\Model\RoleModelInterface;
-use Authorization\Schema\Roles\RoleSave;
+use Authorization\Schema\RoleSave;
 use Authorization\InputFilter\Roles\SaveFilter;
 use Olobase\Mezzio\DataManagerInterface;
 use Common\Helper\ErrorWrapperInterface as Error;

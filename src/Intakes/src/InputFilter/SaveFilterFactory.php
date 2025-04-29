@@ -6,6 +6,7 @@ namespace Intakes\InputFilter;
 
 use Psr\Container\ContainerInterface;
 use Laminas\Db\Adapter\AdapterInterface;
+use Common\InputFilter\ObjectInputFilter;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Laminas\InputFilter\InputFilterPluginManager;

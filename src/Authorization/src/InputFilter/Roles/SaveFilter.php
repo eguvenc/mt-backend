@@ -15,26 +15,6 @@ use Common\InputFilter\InputFilter;
 use Common\InputFilter\CollectionInputFilter;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * @OA\Schema(
- *     schema="RoleSave",
- *     type="object",
- *     required={"id", "key", "name", "level", "rolePermissions"},
- *     @OA\Property(property="id", type="string", format="uuid"),
- *     @OA\Property(property="key", type="string", minLength=2, maxLength=60),
- *     @OA\Property(property="name", type="string", minLength=2, maxLength=100),
- *     @OA\Property(property="level", type="integer", format="int32"),
- *     @OA\Property(
- *         property="rolePermissions",
- *         type="array",
- *         @OA\Items(
- *             type="object",
- *             required={"id"},
- *             @OA\Property(property="id", type="string", format="uuid")
- *         )
- *     )
- * )
- */
 class SaveFilter extends InputFilter
 {
     public function __construct(

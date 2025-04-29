@@ -6,7 +6,7 @@ namespace Authorization\Handler\Roles;
 
 use Authorization\Model\RoleModelInterface;
 use Olobase\Mezzio\DataManagerInterface;
-use Authorization\Schema\Roles\RolesFindOneById;
+use Authorization\Schema\RolesFindOneById;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
