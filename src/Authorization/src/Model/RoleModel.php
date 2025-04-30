@@ -272,7 +272,7 @@ class RoleModel implements RoleModelInterface
     public function create(array $data) : void
     {
         $roleId = $data['id'];
-        unset($data['roles']['id']);
+        // unset($data['roles']['id']);
         try {
             $this->conn->beginTransaction();
             $this->roles->insert($data['roles']);

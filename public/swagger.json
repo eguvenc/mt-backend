@@ -2990,6 +2990,11 @@
             }
         }
     },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
     "tags": [
         {
             "name": "Authentication",

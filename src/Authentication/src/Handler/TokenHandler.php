@@ -16,6 +16,11 @@ use Common\Helper\ErrorWrapperInterface as Error;
 use Mezzio\Authentication\AuthenticationInterface;
 
 /**
+ * @OA\OpenApi(
+ *     security={
+ *         {"bearerAuth": {}}
+ *     }
+ * ),
  * @OA\Info(
  *     title="Patient Medicine Tracker (PMM) API",
  *     version="1.0"
@@ -29,7 +34,8 @@ use Mezzio\Authentication\AuthenticationInterface;
  *     type="http",
  *     scheme="bearer",
  *     bearerFormat="JWT"
- * )
+ * ),
+ * @OA\SecurityRequirement(name="bearerAuth")
  */
 class TokenHandler implements RequestHandlerInterface
 {
