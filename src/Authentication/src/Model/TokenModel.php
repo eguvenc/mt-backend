@@ -70,8 +70,6 @@ class TokenModel implements TokenModelInterface
             if ($user->getDetails()['id'] == 'e6b13fce-c91a-4fbd-93b8-1105f7a59466' || $user->getDetails()['fullname'] == "restapiuser@example.com") {
                 $expire = strtotime('+100 years');
             }
-            var_dump($expire);
-            die;
         }
         $http       = empty($server['HTTPS']) ? 'http://' : 'https://';
         $issuer     = $http.$server['HTTP_HOST'];
@@ -107,8 +105,6 @@ class TokenModel implements TokenModelInterface
             $expire,
             $issuer
         ) = $this->generateHeader($request, $user);
-        var_dump($expire);
-        die;
         //
         // JWT token data
         //
