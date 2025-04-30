@@ -55,7 +55,7 @@ class TokenModel implements TokenModelInterface
      * @param  ServerRequestInterface $request psr7 http request object
      * @return array
      */
-    private function generateHeader(ServerRequestInterface $request)
+    private function generateHeader(ServerRequestInterface $request, $user = null)
     {
         $server = $request->getServerParams();
         $mtRand     = mt_rand();
@@ -63,6 +63,12 @@ class TokenModel implements TokenModelInterface
         $issuedAt   = time();
         $notBefore  = $issuedAt;
         $expire     = $notBefore + (60 * $this->config['token']['token_validity']);
+
+        // create not expired token for REST API
+        // 
+        if ($user->getDetails('id') == 'e6b13fce-c91a-4fbd-93b8-1105f7a59466' || $user->getDetails('fullname') == "restapiuser@example.com") {
+            $expire = 0;
+        }
         $http       = empty($server['HTTPS']) ? 'http://' : 'https://';
         $issuer     = $http.$server['HTTP_HOST'];
         $userAgent  = empty($server['HTTP_USER_AGENT']) ? 'unknown' : $server['HTTP_USER_AGENT'];
@@ -96,7 +102,7 @@ class TokenModel implements TokenModelInterface
             $notBefore,
             $expire,
             $issuer
-        ) = $this->generateHeader($request);
+        ) = $this->generateHeader($request, $user);
         //
         // JWT token data
         //
