@@ -4,6 +4,12 @@
         "title": "Patient Medicine Tracker (PMM) API",
         "version": "1.0"
     },
+    "servers": [
+        {
+            "url": "https://pmm.oloma.dev/api",
+            "description": "Production Server"
+        }
+    ],
     "paths": {
         "/auth/logout": {
             "get": {

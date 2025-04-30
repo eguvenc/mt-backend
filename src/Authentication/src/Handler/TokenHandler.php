@@ -20,6 +20,10 @@ use Mezzio\Authentication\AuthenticationInterface;
  *     title="Patient Medicine Tracker (PMM) API",
  *     version="1.0"
  * ),
+ * @OA\Server(
+ *     url="https://pmm.oloma.dev/api",
+ *     description="Production Server"
+ * ),
  * @OA\SecurityScheme(
  *     securityScheme="bearerAuth",
  *     type="http",
