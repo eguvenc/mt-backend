@@ -103,6 +103,8 @@ class TokenModel implements TokenModelInterface
             $expire,
             $issuer
         ) = $this->generateHeader($request, $user);
+        var_dump($expire);
+        die;
         //
         // JWT token data
         //
