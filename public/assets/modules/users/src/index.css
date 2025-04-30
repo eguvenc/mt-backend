@@ -1,0 +1,14 @@
+
+.v-container[data-v-9e8b2f92] {
+  width: 100%;
+  height: 100%;
+}
+.profile-img-card[data-v-9e8b2f92] {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}

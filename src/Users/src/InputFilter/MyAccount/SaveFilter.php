@@ -27,7 +27,6 @@ class SaveFilter extends InputFilter
         private ServerRequestInterface $request
     )
     {
-        $this->adapter = $commonModel->getAdapter();
     }
 
     public function setInputData(array $data)
