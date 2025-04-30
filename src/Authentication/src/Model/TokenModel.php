@@ -64,10 +64,14 @@ class TokenModel implements TokenModelInterface
         $notBefore  = $issuedAt;
         $expire     = $notBefore + (60 * $this->config['token']['token_validity']);
 
-        // create not expired token for REST API
-        // 
-        if ($user->getDetails('id') == 'e6b13fce-c91a-4fbd-93b8-1105f7a59466' || $user->getDetails('fullname') == "restapiuser@example.com") {
-            $expire = strtotime('+100 years');
+        if ($user) {
+            // create not expired token for REST API
+            // 
+            if ($user->getDetails('id') == 'e6b13fce-c91a-4fbd-93b8-1105f7a59466' || $user->getDetails('fullname') == "restapiuser@example.com") {
+                $expire = strtotime('+100 years');
+            }
+            var_dump($expire);
+            die;
         }
         $http       = empty($server['HTTPS']) ? 'http://' : 'https://';
         $issuer     = $http.$server['HTTP_HOST'];
