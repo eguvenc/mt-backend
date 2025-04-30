@@ -67,7 +67,7 @@ class TokenModel implements TokenModelInterface
         // create not expired token for REST API
         // 
         if ($user->getDetails('id') == 'e6b13fce-c91a-4fbd-93b8-1105f7a59466' || $user->getDetails('fullname') == "restapiuser@example.com") {
-            $expire = 0;
+            $expire = strtotime('+100 years');
         }
         $http       = empty($server['HTTPS']) ? 'http://' : 'https://';
         $issuer     = $http.$server['HTTP_HOST'];
